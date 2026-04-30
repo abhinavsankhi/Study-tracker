@@ -1,4 +1,4 @@
-const CACHE = "study-tracker-v2";
+const CACHE = "study-tracker-v3";
 const FILES = ["./", "./index.html", "./manifest.json"];
 
 self.addEventListener("install", e => {
