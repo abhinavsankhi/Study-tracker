@@ -1,18 +1,20 @@
-const CACHE_NAME = 'examprep-v1';
-const ASSETS = [
-  'index.html',
-  'https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap',
-  'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js'
-];
+const CACHE = "study-tracker-v1";
+const FILES = ["/study-tracker/", "/study-tracker/index.html", "/study-tracker/manifest.json"];
 
-self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
-  );
+self.addEventListener("install", e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
+  self.skipWaiting();
 });
 
-self.addEventListener('fetch', (e) => {
+self.addEventListener("activate", e => {
+  e.waitUntil(caches.keys().then(keys =>
+    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+  ));
+  self.clients.claim();
+});
+
+self.addEventListener("fetch", e => {
   e.respondWith(
-    caches.match(e.request).then((res) => res || fetch(e.request))
+    caches.match(e.request).then(cached => cached || fetch(e.request).catch(() => caches.match("/study-tracker/index.html")))
   );
 });
