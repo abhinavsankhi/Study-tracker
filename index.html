@@ -461,6 +461,27 @@ const BADGES=[
 ];
 
 // ── LOAD DATA ─────────────────────────────────────────────
+// Migrate old data from previous app versions
+function migrateOldData(){
+  const oldKeys=["ldc_study_v2","ldc_sv4","ldc_study_v3","ldc_sv3"];
+  for(const ok of oldKeys){
+    try{const old=localStorage.getItem(ok);if(old){const parsed=JSON.parse(old);if(Object.keys(parsed).length>0){localStorage.setItem(SK,old);localStorage.removeItem(ok);console.log("Migrated from",ok);break;}}}catch(e){}
+  }
+  const oldLoKeys=["ldc_lo2","ldc_left_off","ldc_lo"];
+  for(const ok of oldLoKeys){
+    try{const old=localStorage.getItem(ok);if(old){localStorage.setItem(LOK,old);break;}}catch(e){}
+  }
+  const oldQnKeys=["ldc_qnotes","ldc_qn2"];
+  for(const ok of oldQnKeys){
+    try{const old=localStorage.getItem(ok);if(old){localStorage.setItem(QNK,old);break;}}catch(e){}
+  }
+  const oldSylKeys=["ldc_syllabus","ep_syllabus","ldc_tracker_v1","ldc_tracker_v2"];
+  for(const ok of oldSylKeys){
+    try{const old=localStorage.getItem(ok);if(old){localStorage.setItem(SYLK,old);break;}}catch(e){}
+  }
+}
+migrateOldData();
+
 studyData=ld(SK,{}); dailyGoal=ld(GK,6); quickNotes=ld(QNK,[]);
 exams=ld(EXK,null); if(!exams){exams=DEFAULT_EXAMS;sv(EXK,exams);}
 syllabus=ld(SYLK,{}); currentExamId=exams[0]?.id||"ldc2024";
