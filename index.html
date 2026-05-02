@@ -141,6 +141,22 @@ body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);min
 .modal-textarea::placeholder{color:var(--muted);}
 .modal-hint{font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5;}
 .modal-btns{display:flex;gap:8px;}
+.modal-tabs{display:flex;gap:8px;margin-bottom:14px;}
+.modal-tab{flex:1;padding:8px;border-radius:10px;border:1px solid var(--border);background:var(--card2);color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;text-align:center;font-family:"DM Sans",sans-serif;}
+.modal-tab.active{background:var(--accent);color:#0f172a;border-color:var(--accent);}
+.upload-zone{border:2px dashed var(--border);border-radius:14px;padding:24px;text-align:center;cursor:pointer;margin-bottom:12px;transition:all .2s;}
+.upload-zone:hover{border-color:var(--accent);background:#1e293b;}
+.upload-zone.dragging{border-color:var(--green);background:#1a2f1a;}
+.upload-icon{font-size:36px;margin-bottom:8px;}
+.upload-text{font-size:13px;color:var(--muted);}
+.upload-text strong{color:var(--accent);}
+.upload-formats{font-size:10px;color:var(--muted);margin-top:4px;}
+.parsing-status{background:var(--card2);border-radius:10px;padding:12px;margin-bottom:10px;font-size:12px;display:none;}
+.parsing-status.active{display:block;}
+.parsed-preview{background:#1a2f1a;border:1px solid #2d5a2d;border-radius:10px;padding:12px;margin-bottom:10px;font-size:12px;display:none;max-height:160px;overflow-y:auto;}
+.parsed-preview.active{display:block;}
+.parsed-preview .ps-section{color:var(--green);font-weight:700;margin-bottom:3px;margin-top:6px;}
+.parsed-preview .ps-topic{color:var(--muted);padding-left:10px;}
 
 /* PROGRESS */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
@@ -220,13 +236,37 @@ body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);min
   <div class="modal">
     <h2>➕ Add New Exam</h2>
     <input class="modal-input" id="modal-exam-name" placeholder="Exam name (e.g. RAS, REET, SSC CGL)"/>
-    <input class="modal-input" id="modal-section-name" placeholder="Section name (e.g. General Knowledge)"/>
-    <textarea class="modal-textarea" id="modal-topics" placeholder="Enter topics (one per line):&#10;Current Affairs&#10;History&#10;Geography&#10;Polity"></textarea>
-    <div class="modal-hint">💡 Add section name + topics, then click Add Section. You can add multiple sections.</div>
-    <div style="display:flex;gap:8px;margin-bottom:12px;">
-      <button class="btn btn-accent" style="flex:1" onclick="addSection()">+ Add Section</button>
-      <button class="btn btn-ghost" onclick="clearSections()">Clear All</button>
+
+    <!-- TABS -->
+    <div class="modal-tabs">
+      <div class="modal-tab active" id="tab-manual" onclick="switchModalTab('manual')">✍️ Manual</div>
+      <div class="modal-tab" id="tab-file" onclick="switchModalTab('file')">📄 Upload File/PDF</div>
     </div>
+
+    <!-- MANUAL TAB -->
+    <div id="modal-manual-content">
+      <input class="modal-input" id="modal-section-name" placeholder="Section name (e.g. General Knowledge)"/>
+      <textarea class="modal-textarea" id="modal-topics" placeholder="Enter topics (one per line):&#10;Current Affairs&#10;History&#10;Geography&#10;Polity"></textarea>
+      <div class="modal-hint">💡 Add section name + topics, then click Add Section. You can add multiple sections.</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <button class="btn btn-accent" style="flex:1" onclick="addSection()">+ Add Section</button>
+        <button class="btn btn-ghost" onclick="clearSections()">Clear All</button>
+      </div>
+    </div>
+
+    <!-- FILE UPLOAD TAB -->
+    <div id="modal-file-content" style="display:none">
+      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+        <div class="upload-icon">📄</div>
+        <div class="upload-text"><strong>Tap to upload your syllabus file</strong></div>
+        <div class="upload-formats">Supports: PDF, TXT, DOC, DOCX, any text file</div>
+      </div>
+      <input type="file" id="file-input" accept=".pdf,.txt,.doc,.docx,.text" style="display:none" onchange="handleFileUpload(event)"/>
+      <div class="parsing-status" id="parsing-status">⏳ Reading your file and extracting topics...</div>
+      <div class="parsed-preview" id="parsed-preview"></div>
+      <div class="modal-hint" id="file-hint" style="display:none">✅ Topics extracted! Review above then click Save Exam. You can also switch to Manual tab to edit.</div>
+    </div>
+
     <div id="modal-sections-preview" style="margin-bottom:12px;"></div>
     <div class="modal-btns">
       <button class="btn btn-green" style="flex:1" onclick="saveNewExam()">✅ Save Exam</button>
@@ -306,6 +346,17 @@ body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);min
   <div class="card"><label>📝 What I Studied Today</label>
     <textarea class="notes-textarea" id="input-notes" placeholder="Write what you covered, what was hard, what to revise..."></textarea>
   </div>
+  <div class="card" style="border:1px solid #2d5a2d;background:linear-gradient(135deg,#0f1f0f,#1e293b)">
+    <label style="color:#4ade80">🛡️ Data Backup & Restore</label>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Your data is auto-backed up every time you open the app. Use these to keep it extra safe before any update.</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" style="flex:1;background:#1a3a1a;border:1px solid #2d5a2d;color:#4ade80;font-size:11px" onclick="exportData()">📤 Export Backup</button>
+      <button class="btn" style="flex:1;background:#1a1a3a;border:1px solid #3730a3;color:var(--purple);font-size:11px" onclick="document.getElementById('import-input').click()">📥 Restore Backup</button>
+    </div>
+    <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(event)"/>
+    <div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:center" id="backup-time"></div>
+  </div>
+
   <button class="save-btn" onclick="saveToday()">💾 Save Today's Progress</button>
 </div>
 
@@ -419,7 +470,85 @@ const DEFAULT_EXAMS = [
 ];
 
 // ── STORAGE KEYS ──────────────────────────────────────────
-const SK="ep_study_v1",LOK="ep_lo",TK="ep_timer",GK="ep_goal",EDK="ep_examdate",QNK="ep_qnotes",EXK="ep_exams",SYLK="ep_syllabus";
+const SK="ep_study_v1",LOK="ep_lo",TK="ep_timer",GK="ep_goal",EDK="ep_examdate",QNK="ep_qnotes",EXK="ep_exams",SYLK="ep_syllabus",BK="ep_backup_v1";
+
+// ── BACKUP SYSTEM ─────────────────────────────────────────
+function backupAllData(){
+  const backup={
+    studyData:ld(SK,{}),
+    leftOff:ld(LOK,null),
+    goal:ld(GK,6),
+    examDate:ld(EDK,null),
+    quickNotes:ld(QNK,[]),
+    exams:ld(EXK,null),
+    syllabus:ld(SYLK,{}),
+    backedUpAt:new Date().toISOString()
+  };
+  sv(BK,backup);
+  return backup;
+}
+
+function restoreFromBackup(){
+  const backup=ld(BK,null);
+  if(!backup) return false;
+  if(backup.studyData&&Object.keys(backup.studyData).length>0) sv(SK,backup.studyData);
+  if(backup.leftOff) sv(LOK,backup.leftOff);
+  if(backup.goal) sv(GK,backup.goal);
+  if(backup.examDate) sv(EDK,backup.examDate);
+  if(backup.quickNotes&&backup.quickNotes.length>0) sv(QNK,backup.quickNotes);
+  if(backup.exams&&backup.exams.length>0) sv(EXK,backup.exams);
+  if(backup.syllabus&&Object.keys(backup.syllabus).length>0) sv(SYLK,backup.syllabus);
+  return true;
+}
+
+// Auto backup every time app loads
+function autoBackup(){
+  const current=ld(SK,{});
+  const backup=ld(BK,null);
+  // Only backup if we have real data (more than backup)
+  if(Object.keys(current).length>0){
+    const backupCount=backup?Object.keys(backup.studyData||{}).length:0;
+    if(Object.keys(current).length>=backupCount){
+      backupAllData();
+    }
+  }
+}
+
+// Export data as JSON file user can save
+function exportData(){
+  const backup=backupAllData();
+  const json=JSON.stringify(backup,null,2);
+  const blob=new Blob([json],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download=`exam-tracker-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click(); URL.revokeObjectURL(url);
+  showNotif("💾 Data exported!");
+}
+
+// Import data from JSON backup file
+function importData(event){
+  const file=event.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const backup=JSON.parse(e.target.result);
+      if(backup.studyData) sv(SK,backup.studyData);
+      if(backup.leftOff) sv(LOK,backup.leftOff);
+      if(backup.goal) sv(GK,backup.goal);
+      if(backup.examDate) sv(EDK,backup.examDate);
+      if(backup.quickNotes) sv(QNK,backup.quickNotes);
+      if(backup.exams) sv(EXK,backup.exams);
+      if(backup.syllabus) sv(SYLK,backup.syllabus);
+      sv(BK,backup);
+      showNotif("✅ Data restored! Reloading...");
+      setTimeout(()=>location.reload(),1500);
+    }catch(err){
+      showNotif("❌ Invalid backup file!","#ef4444");
+    }
+  };
+  reader.readAsText(file);
+}
 
 // ── STATE ─────────────────────────────────────────────────
 let studyData={}, currentHours=0, dailyGoal=6, quickNotes=[], exams=[], syllabus={};
@@ -481,6 +610,7 @@ function migrateOldData(){
   }
 }
 migrateOldData();
+autoBackup(); // Always backup existing data before loading
 
 studyData=ld(SK,{}); dailyGoal=ld(GK,6); quickNotes=ld(QNK,[]);
 exams=ld(EXK,null); if(!exams){exams=DEFAULT_EXAMS;sv(EXK,exams);}
@@ -491,6 +621,8 @@ setDateBadge(); showQuote(); updateCountdown(); loadTodayVals(); loadLeftOff();
 calcAndShowStreak(); updateGoalRing(); renderCalendar(); renderQuickNotes();
 restoreTimer(); document.getElementById("goal-input").value=dailyGoal;
 renderExamSwitcher(); renderSyllabus();
+// Show last backup time
+try{const b=ld(BK,null);if(b&&b.backedUpAt){const d=new Date(b.backedUpAt);const el=document.getElementById("backup-time");if(el)el.textContent=`Last auto-backup: ${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;}}catch(e){}
 
 function setDateBadge(){const d=new Date(),dn=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],mo=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];document.getElementById("today-date").textContent=`📅 ${dn[d.getDay()]}, ${d.getDate()} ${mo[d.getMonth()]} ${d.getFullYear()}`;}
 function showQuote(){const q=QUOTES[new Date().getDate()%QUOTES.length];document.getElementById("daily-quote").textContent=`"${q.q}"`;document.getElementById("daily-author").textContent=`— ${q.a}`;}
@@ -580,6 +712,130 @@ function setTopicAction(id,act){if(!syllabus[id])syllabus[id]={completed:false,r
 function logRev(id){if(!syllabus[id])syllabus[id]={completed:false,revisions:0,questions:0};syllabus[id].revisions=(syllabus[id].revisions||0)+1;syllabus[id]._action="";sv(SYLK,syllabus);showNotif(`📖 Revision #${syllabus[id].revisions} logged!`);renderSyllabus();}
 function logQ(id){const safeId=id.replace(/[^a-z0-9]/gi,"_");const inp=document.getElementById("qinp-"+safeId);const count=parseInt(inp?.value||"0",10);if(!count||count<1)return;if(!syllabus[id])syllabus[id]={completed:false,revisions:0,questions:0};syllabus[id].questions=(syllabus[id].questions||0)+count;syllabus[id]._action="";sv(SYLK,syllabus);showNotif(`🧠 ${count} question${count>1?"s":""} added!`);renderSyllabus();}
 
+// ── MODAL TABS ────────────────────────────────────────────
+function switchModalTab(tab){
+  document.getElementById("tab-manual").classList.toggle("active",tab==="manual");
+  document.getElementById("tab-file").classList.toggle("active",tab==="file");
+  document.getElementById("modal-manual-content").style.display=tab==="manual"?"block":"none";
+  document.getElementById("modal-file-content").style.display=tab==="file"?"block":"none";
+}
+
+// ── FILE UPLOAD & PARSING ─────────────────────────────────
+function handleFileUpload(event){
+  const file=event.target.files[0]; if(!file) return;
+  const status=document.getElementById("parsing-status");
+  const preview=document.getElementById("parsed-preview");
+  const hint=document.getElementById("file-hint");
+  status.classList.add("active"); status.textContent="⏳ Reading your file...";
+  preview.classList.remove("active"); hint.style.display="none";
+
+  if(file.type==="application/pdf"){
+    // PDF: read as text using FileReader
+    const reader=new FileReader();
+    reader.onload=function(e){
+      try{
+        // Extract text from PDF binary - basic extraction
+        const arr=new Uint8Array(e.target.result);
+        let text="";
+        // Try to extract readable text from PDF bytes
+        for(let i=0;i<arr.length;i++){
+          const c=arr[i];
+          if(c>=32&&c<127) text+=String.fromCharCode(c);
+          else if(c===10||c===13) text+="\n";
+        }
+        parseSyllabusText(text,file.name);
+      }catch(err){
+        status.textContent="⚠️ Could not read PDF directly. Please copy-paste your syllabus text in Manual tab.";
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  } else {
+    // TXT, DOC, etc - read as text
+    const reader=new FileReader();
+    reader.onload=function(e){
+      parseSyllabusText(e.target.result, file.name);
+    };
+    reader.readAsText(file);
+  }
+}
+
+function parseSyllabusText(text, filename){
+  const status=document.getElementById("parsing-status");
+  const preview=document.getElementById("parsed-preview");
+  const hint=document.getElementById("file-hint");
+
+  status.textContent="⚙️ Extracting topics from your syllabus...";
+
+  // Clean text
+  text=text.replace(/\r\n/g,"\n").replace(/\r/g,"\n");
+
+  // Split into lines and clean
+  const lines=text.split("\n").map(l=>l.trim()).filter(l=>l.length>2);
+
+  // Smart parsing — detect sections vs topics
+  const sections=[];
+  let currentSection=null;
+
+  // Patterns that suggest a section header
+  const isSectionHeader=(line)=>{
+    const l=line.toLowerCase();
+    // Numbered like "1.", "I.", "Part 1", "Section", "Paper", "Unit"
+    if(/^(part|section|paper|unit|chapter|module)\s/i.test(line)) return true;
+    if(/^[IVX]+\.\s/.test(line)) return true; // Roman numerals
+    if(/^\d+\.\s+[A-Z]/.test(line)) return true; // "1. General Knowledge"
+    if(line===line.toUpperCase()&&line.length>3&&line.length<60) return true; // ALL CAPS
+    if(/^[A-Z][^.!?]*:$/.test(line)) return true; // Ends with colon
+    if(line.length<50&&!line.includes(",")&&/^[A-Z\u0900-\u097F]/.test(line)&&lines.indexOf(line)<lines.length*0.8) return true;
+    return false;
+  };
+
+  lines.forEach(line=>{
+    // Skip very short, page numbers, special chars
+    if(line.length<3||/^[\d\s\.\-\*]+$/.test(line)) return;
+    if(/^page\s*\d/i.test(line)) return;
+
+    if(isSectionHeader(line)&&line.length<80){
+      currentSection={name:line.replace(/:$/,"").trim(),topics:[]};
+      sections.push(currentSection);
+    } else {
+      if(!currentSection){
+        currentSection={name:"General Topics",topics:[]};
+        sections.push(currentSection);
+      }
+      // Clean topic line
+      const topic=line.replace(/^[\d\.\-\*\u2022\u25CF\u25E6]\s*/,"").trim();
+      if(topic.length>3&&topic.length<200&&!currentSection.topics.includes(topic)){
+        currentSection.topics.push(topic);
+      }
+    }
+  });
+
+  // Filter out empty sections
+  const validSections=sections.filter(s=>s.topics.length>0);
+
+  if(validSections.length===0){
+    status.textContent="⚠️ Could not extract topics. Please use Manual tab to add topics.";
+    return;
+  }
+
+  // Store parsed sections
+  newExamSections=validSections.map(s=>({name:s.name,color:"#1e293b",accent:"#38bdf8",topics:s.topics}));
+
+  // Show preview
+  status.textContent=`✅ Found ${validSections.length} sections, ${validSections.reduce((s,sec)=>s+sec.topics.length,0)} topics!`;
+  let html="<div style='font-size:11px;color:var(--green);font-weight:700;margin-bottom:6px'>📋 Extracted Syllabus Preview:</div>";
+  validSections.forEach(s=>{
+    html+=`<div class="ps-section">📂 ${s.name} (${s.topics.length} topics)</div>`;
+    s.topics.slice(0,3).forEach(t=>{ html+=`<div class="ps-topic">• ${t}</div>`; });
+    if(s.topics.length>3) html+=`<div class="ps-topic" style="color:var(--accent)">...and ${s.topics.length-3} more</div>`;
+  });
+  preview.innerHTML=html; preview.classList.add("active"); hint.style.display="block";
+
+  // Update sections preview
+  const prev=document.getElementById("modal-sections-preview"); prev.innerHTML="";
+  validSections.forEach(s=>{prev.innerHTML+=`<div style="background:var(--card2);border-radius:8px;padding:8px 10px;margin-bottom:6px;font-size:12px;color:var(--accent)">✅ ${s.name} (${s.topics.length} topics)</div>`;});
+}
+
 // ── ADD / DELETE EXAM ─────────────────────────────────────
 function openModal(){newExamSections=[];document.getElementById("modal-exam-name").value="";document.getElementById("modal-section-name").value="";document.getElementById("modal-topics").value="";document.getElementById("modal-sections-preview").innerHTML="";document.getElementById("modal-bg").classList.add("open");}
 function closeModal(){document.getElementById("modal-bg").classList.remove("open");}
@@ -628,7 +884,36 @@ function updTm(){const h=Math.floor(timerSec/3600),m=Math.floor((timerSec%3600)/
 function startTick(){timerInt=setInterval(()=>{timerSec++;updTm();},1000);}
 function timerStart(){timerRunning=true;timerStart_=Date.now()-(timerSec*1000);startTick();document.getElementById("timer-display").classList.remove("paused");document.getElementById("timer-display").classList.add("running");document.getElementById("timer-label").textContent="⏱ Studying...";document.getElementById("tbtn-start").style.display="none";document.getElementById("tbtn-pause").style.display="inline-block";document.getElementById("tbtn-stop").style.display="inline-block";document.getElementById("tbtn-reset").style.display="none";document.getElementById("timer-session").style.display="none";saveTm();}
 function timerPause(){clearInterval(timerInt);timerRunning=false;document.getElementById("timer-display").classList.remove("running");document.getElementById("timer-display").classList.add("paused");document.getElementById("timer-label").textContent="⏸ Paused";document.getElementById("tbtn-start").textContent="▶ Resume";document.getElementById("tbtn-start").style.display="inline-block";document.getElementById("tbtn-pause").style.display="none";document.getElementById("tbtn-reset").style.display="inline-block";saveTm();}
-function timerStop(){clearInterval(timerInt);timerRunning=false;const hrs=timerSec/3600,added=Math.round(hrs*2)/2;currentHours=Math.min(24,Math.round((currentHours+added)*2)/2);document.getElementById("hour-display").textContent=currentHours;updateGoalRing();const tm=Math.floor(timerSec/60),h2=Math.floor(tm/60),rem=tm%60;const ts=h2>0?`${h2}h ${rem}m`:`${rem}m`;document.getElementById("timer-session-time").textContent=ts;document.getElementById("timer-session").style.display="block";document.getElementById("timer-display").classList.remove("running","paused");document.getElementById("timer-label").textContent="✅ Session complete!";document.getElementById("tbtn-start").style.display="none";document.getElementById("tbtn-pause").style.display="none";document.getElementById("tbtn-stop").style.display="none";document.getElementById("tbtn-reset").style.display="inline-block";localStorage.removeItem(TK);showNotif(`⏱ ${ts} added to hours!`);}
+function timerStop(){
+  clearInterval(timerInt);timerRunning=false;
+  const hrs=timerSec/3600,added=Math.round(hrs*2)/2;
+  currentHours=Math.min(24,Math.round((currentHours+added)*2)/2);
+  document.getElementById("hour-display").textContent=currentHours;
+  updateGoalRing();
+  const tm=Math.floor(timerSec/60),h2=Math.floor(tm/60),rem=tm%60;
+  const ts=h2>0?`${h2}h ${rem}m`:`${rem}m`;
+  document.getElementById("timer-session-time").textContent=ts;
+  document.getElementById("timer-session").style.display="block";
+  document.getElementById("timer-display").classList.remove("running","paused");
+  document.getElementById("timer-label").textContent="✅ Session complete!";
+  document.getElementById("tbtn-start").style.display="none";
+  document.getElementById("tbtn-pause").style.display="none";
+  document.getElementById("tbtn-stop").style.display="none";
+  document.getElementById("tbtn-reset").style.display="inline-block";
+  localStorage.removeItem(TK);
+  // AUTO SAVE — saves immediately when timer stops
+  const k=todayKey();
+  if(!studyData[k]) studyData[k]={hours:0,questions:0,revisions:0,notes:"",leftOff:""};
+  studyData[k].hours=currentHours;
+  studyData[k].questions=parseInt(document.getElementById("input-questions").value)||0;
+  studyData[k].revisions=parseInt(document.getElementById("input-revisions").value)||0;
+  studyData[k].notes=document.getElementById("input-notes").value.trim();
+  studyData[k].leftOff=document.getElementById("input-leftoff").value.trim();
+  sv(SK,studyData);
+  showTodaySummary(studyData[k]);
+  calcAndShowStreak();
+  showNotif(`✅ ${ts} auto-saved to today!`);
+}
 function timerReset(){clearInterval(timerInt);timerRunning=false;timerSec=0;updTm();document.getElementById("timer-display").classList.remove("running","paused");document.getElementById("timer-label").textContent="Ready to study";document.getElementById("tbtn-start").textContent="▶ Start";document.getElementById("tbtn-start").style.display="inline-block";document.getElementById("tbtn-pause").style.display="none";document.getElementById("tbtn-stop").style.display="none";document.getElementById("tbtn-reset").style.display="none";document.getElementById("timer-session").style.display="none";localStorage.removeItem(TK);}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&timerRunning&&timerStart_){timerSec=Math.floor((Date.now()-timerStart_)/1000);updTm();}});
 window.addEventListener("beforeunload",()=>{if(timerRunning)saveTm();});
