@@ -346,17 +346,6 @@ body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);min
   <div class="card"><label>📝 What I Studied Today</label>
     <textarea class="notes-textarea" id="input-notes" placeholder="Write what you covered, what was hard, what to revise..."></textarea>
   </div>
-  <div class="card" style="border:1px solid #2d5a2d;background:linear-gradient(135deg,#0f1f0f,#1e293b)">
-    <label style="color:#4ade80">🛡️ Data Backup & Restore</label>
-    <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Your data is auto-backed up every time you open the app. Use these to keep it extra safe before any update.</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn" style="flex:1;background:#1a3a1a;border:1px solid #2d5a2d;color:#4ade80;font-size:11px" onclick="exportData()">📤 Export Backup</button>
-      <button class="btn" style="flex:1;background:#1a1a3a;border:1px solid #3730a3;color:var(--purple);font-size:11px" onclick="document.getElementById('import-input').click()">📥 Restore Backup</button>
-    </div>
-    <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(event)"/>
-    <div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:center" id="backup-time"></div>
-  </div>
-
   <button class="save-btn" onclick="saveToday()">💾 Save Today's Progress</button>
 </div>
 
@@ -470,85 +459,7 @@ const DEFAULT_EXAMS = [
 ];
 
 // ── STORAGE KEYS ──────────────────────────────────────────
-const SK="ep_study_v1",LOK="ep_lo",TK="ep_timer",GK="ep_goal",EDK="ep_examdate",QNK="ep_qnotes",EXK="ep_exams",SYLK="ep_syllabus",BK="ep_backup_v1";
-
-// ── BACKUP SYSTEM ─────────────────────────────────────────
-function backupAllData(){
-  const backup={
-    studyData:ld(SK,{}),
-    leftOff:ld(LOK,null),
-    goal:ld(GK,6),
-    examDate:ld(EDK,null),
-    quickNotes:ld(QNK,[]),
-    exams:ld(EXK,null),
-    syllabus:ld(SYLK,{}),
-    backedUpAt:new Date().toISOString()
-  };
-  sv(BK,backup);
-  return backup;
-}
-
-function restoreFromBackup(){
-  const backup=ld(BK,null);
-  if(!backup) return false;
-  if(backup.studyData&&Object.keys(backup.studyData).length>0) sv(SK,backup.studyData);
-  if(backup.leftOff) sv(LOK,backup.leftOff);
-  if(backup.goal) sv(GK,backup.goal);
-  if(backup.examDate) sv(EDK,backup.examDate);
-  if(backup.quickNotes&&backup.quickNotes.length>0) sv(QNK,backup.quickNotes);
-  if(backup.exams&&backup.exams.length>0) sv(EXK,backup.exams);
-  if(backup.syllabus&&Object.keys(backup.syllabus).length>0) sv(SYLK,backup.syllabus);
-  return true;
-}
-
-// Auto backup every time app loads
-function autoBackup(){
-  const current=ld(SK,{});
-  const backup=ld(BK,null);
-  // Only backup if we have real data (more than backup)
-  if(Object.keys(current).length>0){
-    const backupCount=backup?Object.keys(backup.studyData||{}).length:0;
-    if(Object.keys(current).length>=backupCount){
-      backupAllData();
-    }
-  }
-}
-
-// Export data as JSON file user can save
-function exportData(){
-  const backup=backupAllData();
-  const json=JSON.stringify(backup,null,2);
-  const blob=new Blob([json],{type:"application/json"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url; a.download=`exam-tracker-backup-${new Date().toISOString().slice(0,10)}.json`;
-  a.click(); URL.revokeObjectURL(url);
-  showNotif("💾 Data exported!");
-}
-
-// Import data from JSON backup file
-function importData(event){
-  const file=event.target.files[0]; if(!file) return;
-  const reader=new FileReader();
-  reader.onload=function(e){
-    try{
-      const backup=JSON.parse(e.target.result);
-      if(backup.studyData) sv(SK,backup.studyData);
-      if(backup.leftOff) sv(LOK,backup.leftOff);
-      if(backup.goal) sv(GK,backup.goal);
-      if(backup.examDate) sv(EDK,backup.examDate);
-      if(backup.quickNotes) sv(QNK,backup.quickNotes);
-      if(backup.exams) sv(EXK,backup.exams);
-      if(backup.syllabus) sv(SYLK,backup.syllabus);
-      sv(BK,backup);
-      showNotif("✅ Data restored! Reloading...");
-      setTimeout(()=>location.reload(),1500);
-    }catch(err){
-      showNotif("❌ Invalid backup file!","#ef4444");
-    }
-  };
-  reader.readAsText(file);
-}
+const SK="ep_study_v1",LOK="ep_lo",TK="ep_timer",GK="ep_goal",EDK="ep_examdate",QNK="ep_qnotes",EXK="ep_exams",SYLK="ep_syllabus";
 
 // ── STATE ─────────────────────────────────────────────────
 let studyData={}, currentHours=0, dailyGoal=6, quickNotes=[], exams=[], syllabus={};
@@ -610,7 +521,6 @@ function migrateOldData(){
   }
 }
 migrateOldData();
-autoBackup(); // Always backup existing data before loading
 
 studyData=ld(SK,{}); dailyGoal=ld(GK,6); quickNotes=ld(QNK,[]);
 exams=ld(EXK,null); if(!exams){exams=DEFAULT_EXAMS;sv(EXK,exams);}
@@ -621,8 +531,6 @@ setDateBadge(); showQuote(); updateCountdown(); loadTodayVals(); loadLeftOff();
 calcAndShowStreak(); updateGoalRing(); renderCalendar(); renderQuickNotes();
 restoreTimer(); document.getElementById("goal-input").value=dailyGoal;
 renderExamSwitcher(); renderSyllabus();
-// Show last backup time
-try{const b=ld(BK,null);if(b&&b.backedUpAt){const d=new Date(b.backedUpAt);const el=document.getElementById("backup-time");if(el)el.textContent=`Last auto-backup: ${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;}}catch(e){}
 
 function setDateBadge(){const d=new Date(),dn=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],mo=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];document.getElementById("today-date").textContent=`📅 ${dn[d.getDay()]}, ${d.getDate()} ${mo[d.getMonth()]} ${d.getFullYear()}`;}
 function showQuote(){const q=QUOTES[new Date().getDate()%QUOTES.length];document.getElementById("daily-quote").textContent=`"${q.q}"`;document.getElementById("daily-author").textContent=`— ${q.a}`;}
