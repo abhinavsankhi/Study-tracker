@@ -174,6 +174,10 @@ body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);min
 .sub-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
 .sub-bar-bg{flex:1;height:6px;background:var(--card2);border-radius:6px;overflow:hidden;}
 .sub-bar{height:100%;border-radius:6px;}
+.subject-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.subject-name{font-size:12px;flex:1;}
+.subject-input{background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:"Syne",sans-serif;font-weight:700;width:58px;padding:5px 8px;text-align:center;outline:none;}
+.subject-unit{font-size:10px;color:var(--muted);min-width:20px;}
 
 /* BADGES */
 .badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
@@ -338,6 +342,8 @@ body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);min
   <div class="card"><label>📖 Revisions Done</label>
     <div class="input-row"><button class="hour-btn" onclick="changeNum('revisions',-1)">−</button><input class="number-input" id="input-revisions" type="number" min="0" value="0"/><button class="hour-btn" onclick="changeNum('revisions',1)">+</button></div>
   </div>
+
+  <div class="card"><label>📚 Time per Subject (hours)</label><div id="subject-inputs"></div></div>
   <div class="card"><label>📌 Where I Left Off</label>
     <div class="lob-box" id="lob-display" style="display:none"><div class="lob-label">📌 Last Bookmark</div><div class="lob-text" id="lob-text"></div><div class="lob-date" id="lob-date"></div></div>
     <textarea class="notes-textarea" id="input-leftoff" placeholder="e.g. Page 42, Rajasthan History, Medieval chapter 3..."></textarea>
@@ -346,6 +352,17 @@ body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);min
   <div class="card"><label>📝 What I Studied Today</label>
     <textarea class="notes-textarea" id="input-notes" placeholder="Write what you covered, what was hard, what to revise..."></textarea>
   </div>
+  <div class="card" style="border:1px solid #2d5a2d;background:linear-gradient(135deg,#0f1f0f,#1e293b)">
+    <label style="color:#4ade80">🛡️ Data Backup & Restore</label>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Your data is auto-backed up every time you open the app. Use these to keep it extra safe before any update.</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" style="flex:1;background:#1a3a1a;border:1px solid #2d5a2d;color:#4ade80;font-size:11px" onclick="exportData()">📤 Export Backup</button>
+      <button class="btn" style="flex:1;background:#1a1a3a;border:1px solid #3730a3;color:var(--purple);font-size:11px" onclick="document.getElementById('import-input').click()">📥 Restore Backup</button>
+    </div>
+    <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(event)"/>
+    <div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:center" id="backup-time"></div>
+  </div>
+
   <button class="save-btn" onclick="saveToday()">💾 Save Today's Progress</button>
 </div>
 
@@ -459,7 +476,85 @@ const DEFAULT_EXAMS = [
 ];
 
 // ── STORAGE KEYS ──────────────────────────────────────────
-const SK="ep_study_v1",LOK="ep_lo",TK="ep_timer",GK="ep_goal",EDK="ep_examdate",QNK="ep_qnotes",EXK="ep_exams",SYLK="ep_syllabus";
+const SK="ep_study_v1",LOK="ep_lo",TK="ep_timer",GK="ep_goal",EDK="ep_examdate",QNK="ep_qnotes",EXK="ep_exams",SYLK="ep_syllabus",BK="ep_backup_v1";
+
+// ── BACKUP SYSTEM ─────────────────────────────────────────
+function backupAllData(){
+  const backup={
+    studyData:ld(SK,{}),
+    leftOff:ld(LOK,null),
+    goal:ld(GK,6),
+    examDate:ld(EDK,null),
+    quickNotes:ld(QNK,[]),
+    exams:ld(EXK,null),
+    syllabus:ld(SYLK,{}),
+    backedUpAt:new Date().toISOString()
+  };
+  sv(BK,backup);
+  return backup;
+}
+
+function restoreFromBackup(){
+  const backup=ld(BK,null);
+  if(!backup) return false;
+  if(backup.studyData&&Object.keys(backup.studyData).length>0) sv(SK,backup.studyData);
+  if(backup.leftOff) sv(LOK,backup.leftOff);
+  if(backup.goal) sv(GK,backup.goal);
+  if(backup.examDate) sv(EDK,backup.examDate);
+  if(backup.quickNotes&&backup.quickNotes.length>0) sv(QNK,backup.quickNotes);
+  if(backup.exams&&backup.exams.length>0) sv(EXK,backup.exams);
+  if(backup.syllabus&&Object.keys(backup.syllabus).length>0) sv(SYLK,backup.syllabus);
+  return true;
+}
+
+// Auto backup every time app loads
+function autoBackup(){
+  const current=ld(SK,{});
+  const backup=ld(BK,null);
+  // Only backup if we have real data (more than backup)
+  if(Object.keys(current).length>0){
+    const backupCount=backup?Object.keys(backup.studyData||{}).length:0;
+    if(Object.keys(current).length>=backupCount){
+      backupAllData();
+    }
+  }
+}
+
+// Export data as JSON file user can save
+function exportData(){
+  const backup=backupAllData();
+  const json=JSON.stringify(backup,null,2);
+  const blob=new Blob([json],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download=`exam-tracker-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click(); URL.revokeObjectURL(url);
+  showNotif("💾 Data exported!");
+}
+
+// Import data from JSON backup file
+function importData(event){
+  const file=event.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const backup=JSON.parse(e.target.result);
+      if(backup.studyData) sv(SK,backup.studyData);
+      if(backup.leftOff) sv(LOK,backup.leftOff);
+      if(backup.goal) sv(GK,backup.goal);
+      if(backup.examDate) sv(EDK,backup.examDate);
+      if(backup.quickNotes) sv(QNK,backup.quickNotes);
+      if(backup.exams) sv(EXK,backup.exams);
+      if(backup.syllabus) sv(SYLK,backup.syllabus);
+      sv(BK,backup);
+      showNotif("✅ Data restored! Reloading...");
+      setTimeout(()=>location.reload(),1500);
+    }catch(err){
+      showNotif("❌ Invalid backup file!","#ef4444");
+    }
+  };
+  reader.readAsText(file);
+}
 
 // ── STATE ─────────────────────────────────────────────────
 let studyData={}, currentHours=0, dailyGoal=6, quickNotes=[], exams=[], syllabus={};
@@ -475,6 +570,18 @@ function p2(n){return String(n).padStart(2,"0");}
 function fmtDate(d){return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;}
 function fmtKey(k){const[y,m,d]=k.split("-");const mo=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];return `${parseInt(d)} ${mo[parseInt(m)-1]} ${y}`;}
 function tots(f){return Object.values(studyData).reduce((s,v)=>s+(v[f]||0),0);}
+
+const SUBJECTS=["General Knowledge","Everyday Science","Mathematics","General Hindi","General English"];
+const SCOL=["#38bdf8","#4ade80","#fbbf24","#f472b6","#a78bfa"];
+
+function initSubjectInputs(){
+  const c=document.getElementById("subject-inputs"); if(!c) return; c.innerHTML="";
+  SUBJECTS.forEach((s,i)=>{
+    const r=document.createElement("div"); r.className="subject-row";
+    r.innerHTML=`<span class="subject-name" style="color:${SCOL[i]}">${s}</span><input class="subject-input" id="sub-${i}" type="number" min="0" step="0.5" value="0"/><span class="subject-unit">h</span>`;
+    c.appendChild(r);
+  });
+}
 
 const QUOTES=[
   {q:"Success is not final, failure is not fatal: it is the courage to continue that counts.",a:"Winston Churchill"},
@@ -521,6 +628,7 @@ function migrateOldData(){
   }
 }
 migrateOldData();
+autoBackup(); // Always backup existing data before loading
 
 studyData=ld(SK,{}); dailyGoal=ld(GK,6); quickNotes=ld(QNK,[]);
 exams=ld(EXK,null); if(!exams){exams=DEFAULT_EXAMS;sv(EXK,exams);}
@@ -530,7 +638,10 @@ syllabus=ld(SYLK,{}); currentExamId=exams[0]?.id||"ldc2024";
 setDateBadge(); showQuote(); updateCountdown(); loadTodayVals(); loadLeftOff();
 calcAndShowStreak(); updateGoalRing(); renderCalendar(); renderQuickNotes();
 restoreTimer(); document.getElementById("goal-input").value=dailyGoal;
+initSubjectInputs();
 renderExamSwitcher(); renderSyllabus();
+// Show last backup time
+try{const b=ld(BK,null);if(b&&b.backedUpAt){const d=new Date(b.backedUpAt);const el=document.getElementById("backup-time");if(el)el.textContent=`Last auto-backup: ${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;}}catch(e){}
 
 function setDateBadge(){const d=new Date(),dn=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],mo=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];document.getElementById("today-date").textContent=`📅 ${dn[d.getDay()]}, ${d.getDate()} ${mo[d.getMonth()]} ${d.getFullYear()}`;}
 function showQuote(){const q=QUOTES[new Date().getDate()%QUOTES.length];document.getElementById("daily-quote").textContent=`"${q.q}"`;document.getElementById("daily-author").textContent=`— ${q.a}`;}
@@ -538,13 +649,34 @@ function setExamDate(){const v=document.getElementById("exam-date-input").value;
 function updateCountdown(){const ed=ld(EDK,null);if(!ed)return;document.getElementById("exam-date-input").value=ed;const diff=Math.ceil((new Date(ed)-new Date())/864e5);document.getElementById("cd-days").textContent=diff>0?diff:"Exam day!";document.getElementById("cd-label").textContent=diff>0?"days until your exam":"🎉 Good luck!";}
 function setGoal(){dailyGoal=Math.max(1,parseInt(document.getElementById("goal-input").value)||6);sv(GK,dailyGoal);updateGoalRing();showNotif(`🎯 Goal set to ${dailyGoal}h!`);}
 function updateGoalRing(){const pct=Math.min(1,currentHours/dailyGoal),circ=238.76,off=circ-(pct*circ);document.getElementById("goal-ring").style.strokeDashoffset=off;document.getElementById("goal-ring").style.stroke=pct>=1?"#4ade80":"#38bdf8";document.getElementById("goal-pct").textContent=Math.round(pct*100)+"%";document.getElementById("goal-done").textContent=currentHours;document.getElementById("goal-target").textContent=dailyGoal;}
-function loadTodayVals(){const k=todayKey(),d=studyData[k];if(!d)return;currentHours=d.hours||0;document.getElementById("hour-display").textContent=currentHours;document.getElementById("input-questions").value=d.questions||0;document.getElementById("input-revisions").value=d.revisions||0;if(d.notes)document.getElementById("input-notes").value=d.notes;showTodaySummary(d);updateGoalRing();}
+function loadTodayVals(){
+  const k=todayKey(),d=studyData[k];if(!d)return;
+  currentHours=d.hours||0;
+  document.getElementById("hour-display").textContent=currentHours;
+  document.getElementById("input-questions").value=d.questions||0;
+  document.getElementById("input-revisions").value=d.revisions||0;
+  if(d.notes)document.getElementById("input-notes").value=d.notes;
+  if(d.subjects) SUBJECTS.forEach((_,i)=>{const el=document.getElementById("sub-"+i);if(el)el.value=d.subjects[i]||0;});
+  showTodaySummary(d);updateGoalRing();
+}
 function loadLeftOff(){const lo=ld(LOK,null);if(!lo)return;document.getElementById("lob-text").textContent=lo.text;document.getElementById("lob-date").textContent="Saved: "+lo.date;document.getElementById("lob-display").style.display="block";document.getElementById("input-leftoff").value=lo.text;}
 function saveLeftOff(){const text=document.getElementById("input-leftoff").value.trim();if(!text)return;const lo={text,date:fmtKey(todayKey())};sv(LOK,lo);document.getElementById("lob-text").textContent=text;document.getElementById("lob-date").textContent="Saved: "+lo.date;document.getElementById("lob-display").style.display="block";showNotif("📌 Bookmark saved!");}
 function showTodaySummary(d){if(!d)return;document.getElementById("today-summary").style.display="grid";document.getElementById("ts-hours").textContent=d.hours||0;document.getElementById("ts-questions").textContent=d.questions||0;document.getElementById("ts-revisions").textContent=d.revisions||0;const totalDone=Object.values(syllabus).reduce((s,t)=>s+(t.completed?1:0),0);document.getElementById("ts-topics").textContent=totalDone;}
 function changeHours(delta){currentHours=Math.round(Math.max(0,Math.min(24,currentHours+delta))*2)/2;document.getElementById("hour-display").textContent=currentHours;updateGoalRing();}
 function changeNum(f,d){const el=document.getElementById("input-"+f);el.value=Math.max(0,(parseInt(el.value)||0)+d);}
-function saveToday(){const k=todayKey();studyData[k]={hours:currentHours,questions:parseInt(document.getElementById("input-questions").value)||0,revisions:parseInt(document.getElementById("input-revisions").value)||0,notes:document.getElementById("input-notes").value.trim(),leftOff:document.getElementById("input-leftoff").value.trim()};sv(SK,studyData);showTodaySummary(studyData[k]);calcAndShowStreak();updateGoalRing();showNotif("✅ Progress saved!");}
+function saveToday(){
+  const k=todayKey();
+  const subjects=SUBJECTS.map((_,i)=>parseFloat(document.getElementById("sub-"+i)?.value)||0);
+  studyData[k]={
+    hours:currentHours,
+    questions:parseInt(document.getElementById("input-questions").value)||0,
+    revisions:parseInt(document.getElementById("input-revisions").value)||0,
+    notes:document.getElementById("input-notes").value.trim(),
+    leftOff:document.getElementById("input-leftoff").value.trim(),
+    subjects
+  };
+  sv(SK,studyData);showTodaySummary(studyData[k]);calcAndShowStreak();updateGoalRing();showNotif("✅ Progress saved!");
+}
 
 // ── STREAK ────────────────────────────────────────────────
 function calcStreak(){let s=0;const t=new Date();for(let i=0;i<365;i++){const d=new Date(t);d.setDate(d.getDate()-i);if(studyData[fmtDate(d)]&&studyData[fmtDate(d)].hours>0)s++;else break;}return s;}
@@ -811,12 +943,14 @@ function timerStop(){
   localStorage.removeItem(TK);
   // AUTO SAVE — saves immediately when timer stops
   const k=todayKey();
-  if(!studyData[k]) studyData[k]={hours:0,questions:0,revisions:0,notes:"",leftOff:""};
+  const subjects=SUBJECTS.map((_,i)=>parseFloat(document.getElementById("sub-"+i)?.value)||0);
+  if(!studyData[k]) studyData[k]={hours:0,questions:0,revisions:0,notes:"",leftOff:"",subjects:[]};
   studyData[k].hours=currentHours;
   studyData[k].questions=parseInt(document.getElementById("input-questions").value)||0;
   studyData[k].revisions=parseInt(document.getElementById("input-revisions").value)||0;
   studyData[k].notes=document.getElementById("input-notes").value.trim();
   studyData[k].leftOff=document.getElementById("input-leftoff").value.trim();
+  studyData[k].subjects=subjects;
   sv(SK,studyData);
   showTodaySummary(studyData[k]);
   calcAndShowStreak();
