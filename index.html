@@ -635,10 +635,11 @@ exams=ld(EXK,null); if(!exams){exams=DEFAULT_EXAMS;sv(EXK,exams);}
 syllabus=ld(SYLK,{}); currentExamId=exams[0]?.id||"ldc2024";
 
 // ── INIT ─────────────────────────────────────────────────
-setDateBadge(); showQuote(); updateCountdown(); loadTodayVals(); loadLeftOff();
+setDateBadge(); showQuote(); updateCountdown();
+initSubjectInputs(); // Must be before loadTodayVals so inputs exist
+loadTodayVals(); loadLeftOff();
 calcAndShowStreak(); updateGoalRing(); renderCalendar(); renderQuickNotes();
 restoreTimer(); document.getElementById("goal-input").value=dailyGoal;
-initSubjectInputs();
 renderExamSwitcher(); renderSyllabus();
 // Show last backup time
 try{const b=ld(BK,null);if(b&&b.backedUpAt){const d=new Date(b.backedUpAt);const el=document.getElementById("backup-time");if(el)el.textContent=`Last auto-backup: ${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;}}catch(e){}
