@@ -1,4 +1,4 @@
-const CACHE = "study-tracker-v3";
+const CACHE = "exam-tracker-v6";
 const CORE = ["./","./index.html","./manifest.json","./icon-192.png","./icon-512.png"];
 
 self.addEventListener("install", e => {
@@ -14,16 +14,12 @@ self.addEventListener("activate", e => {
 self.addEventListener("fetch", e => {
   if(e.request.method !== "GET") return;
   e.respondWith(
-    caches.open(CACHE).then(async cache => {
-      const cached = await cache.match(e.request);
-      if(cached) return cached;
-      try {
-        const response = await fetch(e.request);
-        if(response && response.status===200) cache.put(e.request, response.clone());
-        return response;
-      } catch(err) {
-        return await cache.match("./index.html");
+    fetch(e.request).then(response => {
+      if(response && response.status===200){
+        const clone = response.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
       }
-    })
+      return response;
+    }).catch(() => caches.match(e.request).then(cached => cached || caches.match("./index.html")))
   );
 });
