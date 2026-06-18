@@ -572,6 +572,128 @@ body.theme-purple{--accent:#a78bfa;--green:#7c3aed;--purple:#ec4899;--card:#1a0a
 .level-up-icon{font-size:56px;margin-bottom:8px;}
 .level-up-title{font-family:"Syne",sans-serif;font-size:24px;font-weight:800;color:var(--purple);}
 
+/* ── V12 MEGA STYLES ─────────────────────────────── */
+/* STUDY PET */
+.pet-card{background:linear-gradient(135deg,#1a0a2e,#1e293b);border:2px solid var(--purple);border-radius:20px;padding:20px;margin-bottom:12px;text-align:center;}
+.pet-display{font-size:72px;margin-bottom:8px;display:block;animation:petFloat 3s ease-in-out infinite;}
+@keyframes petFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.pet-name{font-family:"Syne",sans-serif;font-size:18px;font-weight:800;color:var(--purple);}
+.pet-level{font-size:12px;color:var(--muted);margin:4px 0;}
+.pet-xp-bar{height:8px;background:var(--card2);border-radius:8px;overflow:hidden;margin:8px 0;}
+.pet-xp-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--pink));border-radius:8px;transition:width .5s;}
+.pet-speech{background:rgba(255,255,255,.05);border-radius:12px;padding:8px 12px;font-size:12px;color:var(--text);margin-top:8px;font-style:italic;}
+.pet-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+.pet-option{background:var(--card2);border:2px solid var(--border);border-radius:14px;padding:12px 6px;text-align:center;cursor:pointer;}
+.pet-option.selected{border-color:var(--purple);background:linear-gradient(135deg,#1a0a2e,#1e293b);}
+.pet-option .po-icon{font-size:28px;display:block;margin-bottom:4px;}
+.pet-option .po-name{font-size:10px;font-weight:600;}
+/* SKILL TREE */
+.skill-tree{margin-bottom:16px;}
+.skill-subject{margin-bottom:12px;}
+.skill-subject-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.skill-nodes{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;}
+.skill-node{flex-shrink:0;width:80px;text-align:center;position:relative;}
+.skill-node-btn{width:56px;height:56px;border-radius:50%;border:2px solid var(--border);background:var(--card2);cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;transition:all .2s;}
+.skill-node-btn.unlocked{border-color:var(--green);background:linear-gradient(135deg,#1a2f1a,#1e293b);}
+.skill-node-btn.locked{opacity:.4;cursor:not-allowed;}
+.skill-node-btn.active{border-color:var(--accent);background:linear-gradient(135deg,#1e3a5f,#1e293b);animation:pulse2 2s infinite;}
+@keyframes pulse2{0%,100%{box-shadow:0 0 0 0 rgba(56,189,248,.4);}50%{box-shadow:0 0 0 8px rgba(56,189,248,0);}}
+.skill-node-name{font-size:9px;color:var(--muted);font-weight:600;}
+.skill-connector{position:absolute;top:28px;right:-8px;width:16px;height:2px;background:var(--border);}
+.skill-connector.done{background:var(--green);}
+/* BOSS BATTLE */
+.boss-card{background:linear-gradient(135deg,#2a0a0a,#1e293b);border:2px solid #ef4444;border-radius:20px;padding:20px;margin-bottom:12px;}
+.boss-icon{font-size:56px;text-align:center;display:block;margin-bottom:8px;animation:bossShake .5s infinite alternate;}
+@keyframes bossShake{0%{transform:rotate(-3deg);}100%{transform:rotate(3deg);}}
+.boss-hp{height:12px;background:#2f1a1a;border-radius:10px;overflow:hidden;margin:10px 0;}
+.boss-hp-fill{height:100%;background:linear-gradient(90deg,#ef4444,#f97316);border-radius:10px;transition:width .5s;}
+.boss-q{font-size:14px;font-weight:600;margin:12px 0;line-height:1.5;}
+.boss-opts{display:flex;flex-direction:column;gap:8px;}
+.boss-opt{padding:10px 14px;border-radius:10px;border:1px solid #ef444444;background:#2f1a1a;color:var(--text);font-size:13px;cursor:pointer;text-align:left;font-family:"DM Sans",sans-serif;}
+.boss-opt.correct{background:#1a2f1a;border-color:#4ade80;color:#4ade80;}
+.boss-opt.wrong{background:#2f1a1a;border-color:#ef4444;color:#ef4444;}
+.boss-beaten{text-align:center;padding:20px;}
+/* LUCKY WHEEL */
+.wheel-wrap{position:relative;width:240px;height:240px;margin:0 auto 16px;}
+.wheel-canvas{border-radius:50%;border:4px solid var(--border);}
+.wheel-pointer{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:24px;z-index:2;}
+.wheel-spin-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--purple),var(--pink));border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:"Syne",sans-serif;}
+.wheel-spin-btn:disabled{opacity:.5;cursor:not-allowed;}
+/* FOCUS GARDEN */
+.garden-wrap{background:linear-gradient(135deg,#0a1f0a,#1e293b);border:1px solid #2d5a2d;border-radius:20px;padding:20px;margin-bottom:12px;text-align:center;}
+.garden-plant{font-size:80px;display:block;margin-bottom:8px;transition:all .5s;}
+.garden-health{height:10px;background:#1a2f1a;border-radius:10px;overflow:hidden;margin:8px 0;}
+.garden-health-fill{height:100%;border-radius:10px;transition:width .5s;}
+.garden-label{font-size:12px;color:var(--muted);}
+/* STUDY CITY */
+.city-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;}
+.city-building{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:12px 6px;text-align:center;cursor:pointer;}
+.city-building.built{border-color:var(--accent);background:linear-gradient(135deg,#1e3a5f,#1e293b);}
+.city-building.locked{opacity:.5;}
+.city-icon{font-size:32px;display:block;margin-bottom:6px;}
+.city-name{font-size:10px;font-weight:700;margin-bottom:4px;}
+.city-cost{font-size:10px;color:var(--yellow);}
+/* WRONG VAULT */
+.vault-item{background:var(--card);border:1px solid #ef444433;border-left:4px solid #ef4444;border-radius:12px;padding:12px;margin-bottom:8px;}
+.vault-q{font-size:13px;font-weight:600;margin-bottom:6px;}
+.vault-answers{font-size:11px;margin-bottom:6px;}
+.vault-correct{color:var(--green);}
+.vault-wrong{color:#ef4444;}
+.vault-explanation{font-size:11px;color:var(--muted);background:var(--card2);border-radius:8px;padding:6px 8px;margin-top:6px;}
+/* MOTIVATION METER */
+.motivation-ring{position:relative;width:100px;height:100px;margin:0 auto;}
+.motivation-ring svg{transform:rotate(-90deg);}
+.motivation-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.motivation-score{font-family:"Syne",sans-serif;font-size:18px;font-weight:800;}
+/* DAILY CHECK-IN */
+.checkin-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:12px;}
+.checkin-day{background:var(--card2);border-radius:8px;padding:6px 2px;text-align:center;font-size:9px;}
+.checkin-day.done{background:linear-gradient(135deg,var(--green),#22c55e);color:#0f172a;}
+.checkin-day.today{border:1px solid var(--accent);}
+.checkin-num{font-family:"Syne",sans-serif;font-size:12px;font-weight:800;}
+.checkin-coins{font-size:8px;color:var(--muted);}
+/* QUEST CARDS */
+.quest-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.quest-icon{font-size:24px;flex-shrink:0;}
+.quest-info{flex:1;}
+.quest-name{font-size:13px;font-weight:600;margin-bottom:3px;}
+.quest-progress{height:5px;background:var(--card2);border-radius:5px;overflow:hidden;margin:4px 0;}
+.quest-progress-fill{height:100%;border-radius:5px;background:var(--accent);}
+.quest-meta{font-size:10px;color:var(--muted);}
+.quest-reward{font-size:11px;font-weight:700;color:var(--yellow);flex-shrink:0;}
+/* MOCK TRACKER */
+.mock-track-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;}
+.mock-score-display{font-family:"Syne",sans-serif;font-size:28px;font-weight:800;}
+.mock-meta-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px;}
+.mock-meta-val{font-size:12px;font-weight:700;text-align:center;}
+.mock-meta-lbl{font-size:9px;color:var(--muted);text-align:center;}
+/* COLLECTION BOOK */
+.collection-tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;}
+.coll-tab{flex-shrink:0;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--card2);color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;}
+.coll-tab.active{background:var(--accent);color:#0f172a;border-color:var(--accent);}
+.collection-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.coll-item{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:10px 4px;text-align:center;}
+.coll-item.collected{border-color:var(--yellow);background:linear-gradient(135deg,#2a1a0a,#1e293b);}
+.coll-icon{font-size:24px;margin-bottom:4px;}
+.coll-name{font-size:9px;color:var(--muted);font-weight:600;}
+/* SMART SUGGESTIONS */
+.smart-card{border-radius:14px;padding:12px 14px;margin-bottom:8px;border:1px solid;}
+.smart-card.warning{background:#1a0a00;border-color:var(--orange);} 
+.smart-card.info{background:#001a2f;border-color:var(--accent);}
+.smart-card.success{background:#001a0a;border-color:var(--green);}
+.smart-card.danger{background:#1a0000;border-color:#ef4444;}
+.smart-icon{font-size:20px;margin-right:8px;}
+.smart-text{font-size:12px;line-height:1.6;}
+/* BATTLE PASS */
+.bp-tier{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.bp-tier-num{font-family:"Syne",sans-serif;font-size:16px;font-weight:800;min-width:30px;color:var(--muted);}
+.bp-tier-num.current{color:var(--accent);}
+.bp-reward{flex:1;background:var(--card2);border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:8px;}
+.bp-reward.claimed{background:linear-gradient(135deg,#1a2f1a,#1e293b);border:1px solid #2d5a2d;}
+.bp-reward-icon{font-size:20px;}
+.bp-reward-name{font-size:11px;font-weight:600;flex:1;}
+.bp-claim-btn{font-size:10px;padding:4px 10px;border-radius:8px;border:none;cursor:pointer;font-weight:700;}
+
 </style>
 </head>
 <body>
@@ -1032,6 +1154,228 @@ body.theme-purple{--accent:#a78bfa;--green:#7c3aed;--purple:#ec4899;--card:#1a0a
   <div class="trophy-grid" id="trophy-grid"></div>
 </div>
 
+<!-- PET PAGE -->
+<div class="page" id="page-pet">
+  <div class="ph"><h1>🐾 Study Pet</h1><p>Your companion grows as you study!</p></div>
+  <div class="pet-card" id="pet-card">
+    <span class="pet-display" id="pet-emoji">🥚</span>
+    <div class="pet-name" id="pet-name">My Pet</div>
+    <div class="pet-level" id="pet-level">Level 1 · 0 XP</div>
+    <div class="pet-xp-bar"><div class="pet-xp-fill" id="pet-xp-fill" style="width:0%"></div></div>
+    <div class="pet-speech" id="pet-speech">Study hard and I'll grow!</div>
+  </div>
+  <div style="font-family:Syne,sans-serif;font-size:14px;font-weight:800;margin-bottom:8px">Choose Your Pet</div>
+  <div class="pet-selector">
+    <div class="pet-option" id="pet-opt-owl" onclick="selectPet('owl')"><span class="po-icon">🦉</span><span class="po-name">Owl</span></div>
+    <div class="pet-option" id="pet-opt-dragon" onclick="selectPet('dragon')"><span class="po-icon">🐉</span><span class="po-name">Dragon</span></div>
+    <div class="pet-option" id="pet-opt-robot" onclick="selectPet('robot')"><span class="po-icon">🤖</span><span class="po-name">Robot</span></div>
+    <div class="pet-option" id="pet-opt-fox" onclick="selectPet('fox')"><span class="po-icon">🦊</span><span class="po-name">Fox</span></div>
+  </div>
+  <div class="card"><label>🌟 Evolution Stages</label>
+    <div style="display:flex;justify-content:space-between;text-align:center;font-size:11px">
+      <div><div style="font-size:20px">🥚</div><div style="color:var(--muted)">Egg</div><div style="color:var(--accent)">Lv 1</div></div>
+      <div><div style="font-size:20px">🐣</div><div style="color:var(--muted)">Baby</div><div style="color:var(--accent)">Lv 5</div></div>
+      <div><div style="font-size:20px">🐤</div><div style="color:var(--muted)">Teen</div><div style="color:var(--accent)">Lv 15</div></div>
+      <div><div style="font-size:20px">⭐</div><div style="color:var(--muted)">Adult</div><div style="color:var(--accent)">Lv 30</div></div>
+      <div><div style="font-size:20px">💫</div><div style="color:var(--muted)">Legend</div><div style="color:var(--accent)">Lv 50</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOSS BATTLE PAGE -->
+<div class="page" id="page-boss">
+  <div class="ph"><h1>⚔️ Boss Battles</h1><p>Defeat bosses to earn rewards!</p></div>
+  <div id="boss-select-screen">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="boss-card" style="cursor:pointer" onclick="startBoss('english')">
+        <span class="boss-icon">📝</span>
+        <div style="font-family:Syne,sans-serif;font-size:18px;font-weight:800;color:#ef4444;text-align:center">English Grammar Boss</div>
+        <div style="text-align:center;color:var(--muted);font-size:12px;margin-top:4px">Tenses · Voice · Narration</div>
+        <div style="text-align:center;margin-top:8px"><span style="background:#ef444422;border:1px solid #ef444444;color:#ef4444;font-size:10px;padding:3px 10px;border-radius:20px;font-weight:700">Reward: 50🪙 + 100XP + Badge</span></div>
+      </div>
+      <div class="boss-card" style="cursor:pointer" onclick="startBoss('gk')">
+        <span class="boss-icon">🌍</span>
+        <div style="font-family:Syne,sans-serif;font-size:18px;font-weight:800;color:#ef4444;text-align:center">GK Boss</div>
+        <div style="text-align:center;color:var(--muted);font-size:12px;margin-top:4px">History · Geography · Current Affairs</div>
+        <div style="text-align:center;margin-top:8px"><span style="background:#ef444422;border:1px solid #ef444444;color:#ef4444;font-size:10px;padding:3px 10px;border-radius:20px;font-weight:700">Reward: 50🪙 + 100XP + Badge</span></div>
+      </div>
+      <div class="boss-card" style="cursor:pointer" onclick="startBoss('reasoning')">
+        <span class="boss-icon">🧩</span>
+        <div style="font-family:Syne,sans-serif;font-size:18px;font-weight:800;color:#ef4444;text-align:center">Reasoning Boss</div>
+        <div style="text-align:center;color:var(--muted);font-size:12px;margin-top:4px">Series · Coding · Direction</div>
+        <div style="text-align:center;margin-top:8px"><span style="background:#ef444422;border:1px solid #ef444444;color:#ef4444;font-size:10px;padding:3px 10px;border-radius:20px;font-weight:700">Reward: 50🪙 + 100XP + Badge</span></div>
+      </div>
+      <div class="boss-card" style="cursor:pointer" onclick="startBoss('maths')">
+        <span class="boss-icon">🔢</span>
+        <div style="font-family:Syne,sans-serif;font-size:18px;font-weight:800;color:#ef4444;text-align:center">Mathematics Boss</div>
+        <div style="text-align:center;color:var(--muted);font-size:12px;margin-top:4px">Arithmetic · Algebra · Geometry</div>
+        <div style="text-align:center;margin-top:8px"><span style="background:#ef444422;border:1px solid #ef444444;color:#ef4444;font-size:10px;padding:3px 10px;border-radius:20px;font-weight:700">Reward: 50🪙 + 100XP + Badge</span></div>
+      </div>
+    </div>
+  </div>
+  <div id="boss-battle-screen" style="display:none"></div>
+</div>
+
+<!-- SKILL TREE PAGE -->
+<div class="page" id="page-skilltree">
+  <div class="ph"><h1>🌳 Skill Tree</h1><p>Complete topics to unlock skills!</p></div>
+  <div class="skill-tree" id="skill-tree"></div>
+</div>
+
+<!-- QUESTS PAGE -->
+<div class="page" id="page-quests">
+  <div class="ph"><h1>📋 Quests</h1><p>Daily, Weekly & Monthly missions</p></div>
+  <!-- SMART SUGGESTIONS -->
+  <div id="smart-suggestions" style="margin-bottom:16px"></div>
+  <!-- DAILY CHECKIN -->
+  <div class="card" style="border-color:var(--yellow)">
+    <label>🎁 Daily Check-In Streak</label>
+    <div class="checkin-grid" id="checkin-grid"></div>
+    <div id="checkin-btn-wrap"></div>
+  </div>
+  <!-- LUCKY WHEEL -->
+  <div class="card" style="text-align:center">
+    <label>🎡 Lucky Wheel — 1 spin per day!</label>
+    <div class="wheel-wrap">
+      <div class="wheel-pointer">▼</div>
+      <canvas class="wheel-canvas" id="lucky-wheel" width="240" height="240"></canvas>
+    </div>
+    <button class="wheel-spin-btn" id="spin-btn" onclick="spinWheel()">🎡 Spin the Wheel!</button>
+    <div style="font-size:11px;color:var(--muted);margin-top:8px" id="spin-result"></div>
+  </div>
+  <!-- MOTIVATION METER -->
+  <div class="card">
+    <label>🔥 Motivation Meter</label>
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="motivation-ring">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#263347" stroke-width="10"/>
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#f472b6" stroke-width="10" stroke-dasharray="263.9" id="motivation-arc" stroke-dashoffset="263.9" stroke-linecap="round"/>
+        </svg>
+        <div class="motivation-center"><div class="motivation-score" id="motivation-score" style="color:#f472b6">0%</div></div>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;margin-bottom:6px" id="motivation-label">Keep going!</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.7" id="motivation-factors"></div>
+      </div>
+    </div>
+  </div>
+  <!-- DAILY QUESTS -->
+  <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:800;margin-bottom:8px">🌅 Daily Quests</div>
+  <div id="daily-quests" style="margin-bottom:16px"></div>
+  <!-- WEEKLY QUESTS -->
+  <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:800;margin-bottom:8px">📅 Weekly Quests</div>
+  <div id="weekly-quests" style="margin-bottom:16px"></div>
+  <!-- MONTHLY QUESTS -->
+  <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:800;margin-bottom:8px">🏆 Monthly Quests</div>
+  <div id="monthly-quests" style="margin-bottom:16px"></div>
+  <!-- BATTLE PASS -->
+  <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:800;margin-bottom:8px">🎫 Study Battle Pass</div>
+  <div id="battle-pass" style="margin-bottom:16px"></div>
+</div>
+
+<!-- GARDEN PAGE -->
+<div class="page" id="page-garden">
+  <div class="ph"><h1>🌱 Focus Garden</h1><p>Study to grow your garden!</p></div>
+  <div class="garden-wrap">
+    <span class="garden-plant" id="garden-plant">🌱</span>
+    <div style="font-family:Syne,sans-serif;font-size:18px;font-weight:800;color:var(--green);margin-bottom:4px" id="garden-plant-name">Seedling</div>
+    <div class="garden-health"><div class="garden-health-fill" id="garden-health-fill" style="width:100%;background:var(--green)"></div></div>
+    <div class="garden-label" id="garden-label">Water your plant by studying!</div>
+  </div>
+  <div class="card">
+    <label>🌿 Garden Stats</label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="text-align:center"><div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:var(--green)" id="garden-days">0</div><div style="font-size:10px;color:var(--muted)">Days Alive</div></div>
+      <div style="text-align:center"><div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:var(--accent)" id="garden-stage">1/5</div><div style="font-size:10px;color:var(--muted)">Growth Stage</div></div>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.7">
+      🌱 Seedling → 🌿 Sprout → 🌺 Flower → 🌳 Tree → 🌲 Ancient Tree<br>
+      Study every day to keep your plant healthy!
+    </div>
+  </div>
+</div>
+
+<!-- STUDY CITY PAGE -->
+<div class="page" id="page-city">
+  <div class="ph"><h1>🏙️ Study City</h1><p>Build your city with coins!</p></div>
+  <div style="text-align:center;margin-bottom:12px">
+    <span style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:var(--yellow)" id="city-coins">0 🪙</span>
+    <div style="font-size:11px;color:var(--muted)">Available coins</div>
+  </div>
+  <div class="city-grid" id="city-grid"></div>
+  <div class="card" style="text-align:center"><label>📊 City Progress</label><div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:var(--accent)" id="city-progress">0/8</div><div style="font-size:11px;color:var(--muted)">Buildings constructed</div></div>
+</div>
+
+<!-- WRONG VAULT PAGE -->
+<div class="page" id="page-vault">
+  <div class="ph"><h1>🗃️ Wrong Question Vault</h1><p>Learn from your mistakes!</p></div>
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+    <button class="btn btn-red" style="flex:1;font-size:11px" onclick="document.getElementById('modal-vault-bg').classList.add('open')">+ Add Wrong Q</button>
+    <select id="vault-filter" class="btn btn-ghost" style="flex:1" onchange="renderVault()">
+      <option value="all">All Subjects</option>
+      <option>General Knowledge</option><option>Everyday Science</option>
+      <option>Mathematics</option><option>General Hindi</option><option>General English</option>
+    </select>
+  </div>
+  <div id="vault-list"></div>
+</div>
+
+<!-- COLLECTION PAGE -->
+<div class="page" id="page-collection">
+  <div class="ph"><h1>📚 Collection Book</h1><p>Everything you've earned!</p></div>
+  <div class="collection-tabs">
+    <div class="coll-tab active" onclick="showCollection('badges',this)">🏅 Badges</div>
+    <div class="coll-tab" onclick="showCollection('pets',this)">🐾 Pets</div>
+    <div class="coll-tab" onclick="showCollection('themes',this)">🎨 Themes</div>
+    <div class="coll-tab" onclick="showCollection('trophies',this)">🏆 Trophies</div>
+  </div>
+  <div id="collection-content"></div>
+  <div style="text-align:center;margin-top:12px">
+    <div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:var(--accent)" id="collection-pct">0%</div>
+    <div style="font-size:11px;color:var(--muted)">Collection Complete</div>
+  </div>
+</div>
+
+<!-- MOCK TRACKER PAGE -->
+<div class="page" id="page-mocktrack">
+  <div class="ph"><h1>📊 Mock Test Tracker</h1><p>Track your test performance!</p></div>
+  <div style="display:flex;gap:8px;margin-bottom:12px">
+    <button class="btn btn-accent" style="flex:1" onclick="document.getElementById('modal-mocktrack-bg').classList.add('open')">+ Add Test Result</button>
+  </div>
+  <div class="chart-card"><h3>📈 Score Progress</h3><div class="chart-wrap"><canvas id="chart-mock-progress"></canvas></div></div>
+  <div id="mock-track-list"></div>
+</div>
+
+<!-- MODALS FOR V12 -->
+<div class="modal-bg" id="modal-vault-bg">
+  <div class="modal"><h2>❌ Add Wrong Question</h2>
+    <textarea class="modal-textarea" id="vault-q" placeholder="The question you got wrong..." style="min-height:70px"></textarea>
+    <input class="modal-input" id="vault-correct" placeholder="Correct answer"/>
+    <input class="modal-input" id="vault-yourans" placeholder="Your wrong answer"/>
+    <textarea class="modal-textarea" id="vault-explanation" placeholder="Explanation / what to remember..." style="min-height:60px"></textarea>
+    <select class="modal-input" id="vault-sub"><option>General Knowledge</option><option>Everyday Science</option><option>Mathematics</option><option>General Hindi</option><option>General English</option></select>
+    <div class="modal-btns">
+      <button class="btn btn-red" style="flex:1" onclick="saveVaultQ()">💾 Save</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('modal-vault-bg').classList.remove('open')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-mocktrack-bg">
+  <div class="modal"><h2>📊 Add Mock Test Result</h2>
+    <input class="modal-input" id="mt-name" placeholder="Test name (e.g. LDC Mock #1)"/>
+    <input class="modal-input" id="mt-score" type="number" placeholder="Score (e.g. 78)"/>
+    <input class="modal-input" id="mt-total" type="number" placeholder="Total marks (e.g. 100)"/>
+    <input class="modal-input" id="mt-accuracy" type="number" placeholder="Accuracy % (e.g. 82)"/>
+    <input class="modal-input" id="mt-rank" placeholder="Rank (optional)"/>
+    <div class="modal-btns">
+      <button class="btn btn-accent" style="flex:1" onclick="saveMockTrack()">✅ Save</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('modal-mocktrack-bg').classList.remove('open')">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav class="bottom-nav">
   <button class="nav-btn active" onclick="showPage('today',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Today</button>
@@ -1049,6 +1393,15 @@ body.theme-purple{--accent:#a78bfa;--green:#7c3aed;--purple:#ec4899;--card:#1a0a
     <button class="nav-btn" onclick="showPage('calculator',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h12a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>Calc</button>
   <button class="nav-btn" onclick="showPage('utilities',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Utils</button>
   <button class="nav-btn" onclick="showPage('trophy',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15l-2 5l-4-1l3-4m3 0l2 5l4-1l-3-4M12 15V9m0 0l-3-3m3 3l3-3M5 7h14"/></svg>Trophy</button>
+    <button class="nav-btn" onclick="showPage('pet',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>Pet</button>
+  <button class="nav-btn" onclick="showPage('boss',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>Boss</button>
+  <button class="nav-btn" onclick="showPage('quests',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>Quests</button>
+  <button class="nav-btn" onclick="showPage('garden',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>Garden</button>
+  <button class="nav-btn" onclick="showPage('city',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>City</button>
+  <button class="nav-btn" onclick="showPage('vault',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>Vault</button>
+  <button class="nav-btn" onclick="showPage('skilltree',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Skills</button>
+  <button class="nav-btn" onclick="showPage('collection',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>Collect</button>
+  <button class="nav-btn" onclick="showPage('mocktrack',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>Tests</button>
     <button class="nav-btn" onclick="showPage('settings',this)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Settings</button>
 </nav>
 <script>
@@ -1251,7 +1604,16 @@ function showPage(id,btn){document.querySelectorAll(".page").forEach(p=>p.classL
   if(id==="revision"){renderRevisionQueue();renderUpcomingRevisions();}
   if(id==="calculator"){renderPeriodicTable();}
   if(id==="utilities"){renderFormulaTester();renderFormulaLibrary();renderStickies();loadWellness();}
-  if(id==="trophy"){renderTrophyCabinet();renderXPBar();checkLevelUp();}}
+  if(id==="trophy"){renderTrophyCabinet();renderXPBar();checkLevelUp();}
+  if(id==="pet")renderPet();
+  if(id==="boss"){document.getElementById('boss-select-screen').style.display='block';document.getElementById('boss-battle-screen').style.display='none';}
+  if(id==="quests"){renderQuests();updateMotivationMeter();renderSmartSuggestions();renderCheckin();}
+  if(id==="garden")updateGarden();
+  if(id==="city")renderCity();
+  if(id==="vault")renderVault();
+  if(id==="skilltree")renderSkillTree();
+  if(id==="collection")showCollection('badges',document.querySelector('.coll-tab'));
+  if(id==="mocktrack")renderMockTrack();}
 let nt;
 function showNotif(msg,color="#4ade80"){const el=document.getElementById("notif");el.textContent=msg;el.style.background=color;el.style.color=(color==="#4ade80"||color==="#fbbf24")?"#0f172a":"#fff";el.style.display="block";clearTimeout(nt);nt=setTimeout(()=>el.style.display="none",2500);}
 // ── RANK SYSTEM ───────────────────────────────────────────
@@ -1952,6 +2314,410 @@ checkLevelUp();
   }
 })();
 
+// ── STUDY PET ─────────────────────────────────────────────
+const PET_TYPES={
+  owl:{name:"Owl",stages:["🥚","🦉","🦅","🦚","🦋","💎🦉"],speeches:["Study hard! Hoot hoot!","Knowledge is power!","You're doing great!","Keep pushing!","Almost there!","You are LEGENDARY!"]},
+  dragon:{name:"Dragon",stages:["🥚","🐲","🐉","🔥🐉","⚡🐉","💎🐉"],speeches:["Roar! Let's study!","Fire up your brain!","Breathe fire on those books!","Unstoppable!","Dragon power!","LEGENDARY DRAGON!"]},
+  robot:{name:"Robot",stages:["🥚","🤖","⚙️🤖","🦾🤖","🚀🤖","💎🤖"],speeches:["Processing... Study more!","Logic engaged!","Optimizing your brain!","Performance: EXCELLENT","Near maximum capacity!","SYSTEM: LEGENDARY"]},
+  fox:{name:"Fox",stages:["🥚","🦊","🦊✨","🌟🦊","👑🦊","💎🦊"],speeches:["Clever fox needs study!","Quick and smart!","Outsmart everyone!","You're so cunning!","Almost legendary!","LEGENDARY FOX!"]}
+};
+function getPetData(){return ld('ep_pet',{type:'owl',xp:0,level:1});}
+function savePetData(d){sv('ep_pet',d);}
+function selectPet(type){const p=getPetData();p.type=type;savePetData(p);renderPet();showNotif('🐾 '+PET_TYPES[type].name+' selected!');}
+function addPetXP(amount){const p=getPetData();p.xp+=amount;const newLevel=Math.floor(Math.sqrt(p.xp/10))+1;if(newLevel>p.level){p.level=newLevel;showNotif('🎉 Pet evolved to Level '+p.level+'!');showCelebration();}savePetData(p);renderPet();}
+function renderPet(){
+  const p=getPetData();const pet=PET_TYPES[p.type]||PET_TYPES.owl;
+  const stageIdx=p.level>=50?5:p.level>=30?4:p.level>=15?3:p.level>=5?2:p.level>=2?1:0;
+  const nextLevelXP=Math.pow(p.level,2)*10;const pct=Math.min(100,Math.round(p.xp/nextLevelXP*100));
+  const el=document.getElementById('pet-emoji');const pn=document.getElementById('pet-name');const pl=document.getElementById('pet-level');const pf=document.getElementById('pet-xp-fill');const ps=document.getElementById('pet-speech');
+  if(el)el.textContent=pet.stages[stageIdx];if(pn)pn.textContent=pet.name;if(pl)pl.textContent='Level '+p.level+' · '+p.xp+' XP';if(pf)pf.style.width=pct+'%';if(ps)ps.textContent=pet.speeches[stageIdx];
+  document.querySelectorAll('.pet-option').forEach(o=>o.classList.remove('selected'));const sel=document.getElementById('pet-opt-'+p.type);if(sel)sel.classList.add('selected');
+}
+
+// ── BOSS BATTLES ──────────────────────────────────────────
+const BOSS_QUESTIONS={
+  english:[
+    {q:"Which tense: 'She has been studying for 3 hours'?",a:"Present Perfect Continuous",opts:["Simple Present","Present Perfect Continuous","Past Continuous","Future Perfect"]},
+    {q:"Change to passive: 'Ram writes a letter'",a:"A letter is written by Ram",opts:["A letter is written by Ram","A letter was written by Ram","A letter has been written","Ram is writing a letter"]},
+    {q:"Correct form: 'He __ playing since morning'",a:"has been",opts:["is","was","has been","had been"]},
+    {q:"Synonym of 'Abundant':",a:"Plentiful",opts:["Scarce","Plentiful","Empty","Rare"]},
+    {q:"Antonym of 'Humble':",a:"Arrogant",opts:["Modest","Gentle","Arrogant","Kind"]},
+  ],
+  gk:[
+    {q:"Capital of Rajasthan?",a:"Jaipur",opts:["Jodhpur","Udaipur","Jaipur","Kota"]},
+    {q:"India became republic on?",a:"26 January 1950",opts:["15 August 1947","26 January 1950","15 August 1950","26 January 1947"]},
+    {q:"Largest desert in India?",a:"Thar Desert",opts:["Kutch","Thar Desert","Deccan","Ladakh"]},
+    {q:"Father of Indian Constitution?",a:"Dr. B.R. Ambedkar",opts:["Jawaharlal Nehru","Dr. B.R. Ambedkar","Mahatma Gandhi","Sardar Patel"]},
+    {q:"Rajasthan Day is celebrated on?",a:"30 March",opts:["15 August","26 January","30 March","1 November"]},
+  ],
+  reasoning:[
+    {q:"If MANGO = NBOHP, then APPLE = ?",a:"BQQMF",opts:["BQQMF","BQPMF","CQQMF","BQQNF"]},
+    {q:"Find the odd one: 2, 3, 5, 7, 9, 11",a:"9",opts:["2","5","9","11"]},
+    {q:"Complete: 1, 4, 9, 16, 25, ?",a:"36",opts:["30","36","42","49"]},
+    {q:"A is north of B. C is east of B. In which direction is C from A?",a:"South-East",opts:["North-East","South-West","South-East","North-West"]},
+    {q:"If 6×4=48, 3×5=20, then 5×6=?",a:"42",opts:["30","40","42","36"]},
+  ],
+  maths:[
+    {q:"Simple Interest on ₹1000 at 10% for 2 years?",a:"₹200",opts:["₹100","₹150","₹200","₹250"]},
+    {q:"√144 = ?",a:"12",opts:["11","12","13","14"]},
+    {q:"LCM of 12 and 18?",a:"36",opts:["24","36","48","72"]},
+    {q:"25% of 200 = ?",a:"50",opts:["25","40","50","75"]},
+    {q:"Area of circle with radius 7? (π=22/7)",a:"154",opts:["44","154","176","132"]},
+  ]
+};
+let bossState={subject:'',hp:100,maxHp:100,qIdx:0,correct:0};
+function startBoss(subject){
+  bossState={subject,hp:100,maxHp:100,qIdx:0,correct:0};
+  document.getElementById('boss-select-screen').style.display='none';
+  document.getElementById('boss-battle-screen').style.display='block';
+  renderBossQ();
+}
+function renderBossQ(){
+  const el=document.getElementById('boss-battle-screen');if(!el)return;
+  const qs=BOSS_QUESTIONS[bossState.subject]||[];
+  if(bossState.qIdx>=qs.length||bossState.hp<=0){
+    const won=bossState.hp>0||bossState.correct>=3;
+    el.innerHTML=`<div class="boss-card"><div class="boss-beaten">${won?'🎉':'💀'}<div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:${won?"var(--green)":"#ef4444"};margin:10px 0">${won?"BOSS DEFEATED!":"DEFEATED..."}</div><div style="font-size:13px;color:var(--muted);margin-bottom:12px">Score: ${bossState.correct}/${qs.length}</div>${won?`<div style="color:var(--yellow);font-weight:700;margin-bottom:12px">+50🪙 +100XP + Badge Earned!</div>`:'<div style="color:var(--muted);margin-bottom:12px">Try again to earn rewards!</div>'}<button class="btn btn-accent" onclick="exitBoss()" style="width:100%">← Back to Bosses</button></div></div>`;
+    if(won){addCoins(50,'Boss defeated!');addPetXP(100);showCelebration();sv('ep_boss_beaten_'+bossState.subject,true);}
+    return;
+  }
+  const q=qs[bossState.qIdx];const icons={english:'📝',gk:'🌍',reasoning:'🧩',maths:'🔢'};
+  el.innerHTML=`<div class="boss-card">
+    <span class="boss-icon">${icons[bossState.subject]||'⚔️'}</span>
+    <div style="text-align:center;font-family:Syne,sans-serif;font-size:16px;font-weight:800;color:#ef4444;margin-bottom:6px">${bossState.subject.toUpperCase()} BOSS</div>
+    <div style="font-size:11px;color:var(--muted);text-align:center;margin-bottom:4px">Boss HP</div>
+    <div class="boss-hp"><div class="boss-hp-fill" style="width:${bossState.hp}%"></div></div>
+    <div style="text-align:right;font-size:10px;color:var(--muted);margin-bottom:10px">${bossState.hp}/${bossState.maxHp} HP · Q${bossState.qIdx+1}/${qs.length}</div>
+    <div class="boss-q">${q.q}</div>
+    <div class="boss-opts">${q.opts.map(o=>`<button class="boss-opt" onclick="bossAnswer(this,'${o.replace(/'/g,"\\'")}','${q.a.replace(/'/g,"\\'")}')"> ${o}</button>`).join('')}</div>
+  </div>`;
+}
+function bossAnswer(btn,chosen,correct){
+  document.querySelectorAll('.boss-opt').forEach(b=>{if(b.textContent.trim()===correct)b.classList.add('correct');});
+  if(chosen===correct){btn.classList.add('correct');bossState.hp=Math.max(0,bossState.hp-20);bossState.correct++;addCoins(5,'Boss hit!');}
+  else{btn.classList.add('wrong');bossState.hp=Math.max(0,bossState.hp-5);}
+  bossState.qIdx++;setTimeout(renderBossQ,1200);
+}
+function exitBoss(){document.getElementById('boss-select-screen').style.display='block';document.getElementById('boss-battle-screen').style.display='none';document.getElementById('boss-battle-screen').innerHTML='';}
+
+// ── SKILL TREE ────────────────────────────────────────────
+const SKILL_TREES={
+  'English':{icon:'📝',color:'#38bdf8',nodes:['Tenses','Voice','Narration','Vocabulary','Comprehension','Error Correction']},
+  'Reasoning':{icon:'🧩',color:'#a78bfa',nodes:['Series','Coding','Blood Relation','Direction','Syllogism','Analogy']},
+  'Mathematics':{icon:'🔢',color:'#fbbf24',nodes:['Arithmetic','Percentage','Ratio','Algebra','Geometry','Statistics']},
+  'General Knowledge':{icon:'🌍',color:'#4ade80',nodes:['History','Geography','Polity','Economy','Science','Current Affairs']},
+};
+function renderSkillTree(){
+  const el=document.getElementById('skill-tree');if(!el)return;
+  const unlockedSkills=ld('ep_skills',[]);
+  el.innerHTML=Object.entries(SKILL_TREES).map(([subject,data])=>{
+    const nodes=data.nodes.map((node,i)=>{
+      const isUnlocked=unlockedSkills.includes(subject+'-'+node);
+      const canUnlock=i===0||(unlockedSkills.includes(subject+'-'+data.nodes[i-1]));
+      const isActive=canUnlock&&!isUnlocked;
+      return `<div class="skill-node">
+        <button class="skill-node-btn ${isUnlocked?'unlocked':isActive?'active':'locked'}" onclick="unlockSkill('${subject}','${node}',${canUnlock})" title="${node}">
+          ${isUnlocked?'✅':isActive?data.icon:'🔒'}
+        </button>
+        ${i<data.nodes.length-1?`<div class="skill-connector ${isUnlocked?'done':''}"></div>`:''}
+        <div class="skill-node-name">${node}</div>
+      </div>`;
+    }).join('');
+    const done=data.nodes.filter(n=>unlockedSkills.includes(subject+'-'+n)).length;
+    return `<div class="skill-subject"><div class="skill-subject-title" style="color:${data.color}">${data.icon} ${subject} <span style="font-size:11px;color:var(--muted);font-weight:400">${done}/${data.nodes.length}</span></div><div class="skill-nodes">${nodes}</div></div>`;
+  }).join('');
+}
+function unlockSkill(subject,node,canUnlock){
+  if(!canUnlock)return showNotif('Complete previous skill first!','#ef4444');
+  const skills=ld('ep_skills',[]);
+  if(skills.includes(subject+'-'+node))return showNotif('Already unlocked!','#fbbf24');
+  const cost=30;if(ld(COINSK,0)<cost)return showNotif('Need 30🪙 to unlock!','#ef4444');
+  sv(COINSK,ld(COINSK,0)-cost);skills.push(subject+'-'+node);sv('ep_skills',skills);
+  addPetXP(20);renderSkillTree();showNotif('🌟 '+node+' unlocked! -30🪙');showCelebration();
+}
+
+// ── LUCKY WHEEL ───────────────────────────────────────────
+const WHEEL_PRIZES=[
+  {label:'10🪙',color:'#38bdf8',type:'coins',val:10},
+  {label:'50🪙',color:'#fbbf24',type:'coins',val:50},
+  {label:'25XP',color:'#4ade80',type:'xp',val:25},
+  {label:'5🪙',color:'#f472b6',type:'coins',val:5},
+  {label:'100XP',color:'#a78bfa',type:'xp',val:100},
+  {label:'30🪙',color:'#fb923c',type:'coins',val:30},
+  {label:'Pet XP',color:'#34d399',type:'petxp',val:50},
+  {label:'200XP',color:'#ef4444',type:'xp',val:200},
+];
+let wheelSpinning=false;
+function drawWheel(){
+  const canvas=document.getElementById('lucky-wheel');if(!canvas)return;
+  const ctx=canvas.getContext('2d');const cx=120,cy=120,r=115;
+  const slice=2*Math.PI/WHEEL_PRIZES.length;
+  WHEEL_PRIZES.forEach((p,i)=>{
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,i*slice,(i+1)*slice);ctx.fillStyle=p.color+'cc';ctx.fill();ctx.strokeStyle='#0f172a';ctx.lineWidth=2;ctx.stroke();
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(i*slice+slice/2);ctx.textAlign='right';ctx.fillStyle='#fff';ctx.font='bold 11px DM Sans';ctx.fillText(p.label,r-8,4);ctx.restore();
+  });
+}
+function spinWheel(){
+  const today=todayKey();const lastSpin=ld('ep_last_spin','');
+  if(lastSpin===today)return showNotif('Already spun today! Come back tomorrow 🎡','#fbbf24');
+  if(wheelSpinning)return;wheelSpinning=true;
+  const btn=document.getElementById('spin-btn');if(btn)btn.disabled=true;
+  const prizeIdx=Math.floor(Math.random()*WHEEL_PRIZES.length);
+  const targetAngle=prizeIdx*(360/WHEEL_PRIZES.length);
+  const spins=5*360+targetAngle;let current=0;const speed=20;
+  const canvas=document.getElementById('lucky-wheel');const ctx=canvas.getContext('2d');
+  const animate=()=>{
+    current+=speed*(1-current/(spins*0.9));
+    ctx.clearRect(0,0,240,240);ctx.save();ctx.translate(120,120);ctx.rotate(current*Math.PI/180);ctx.translate(-120,-120);drawWheel();ctx.restore();
+    if(current<spins){requestAnimationFrame(animate);}
+    else{
+      wheelSpinning=false;sv('ep_last_spin',today);
+      const prize=WHEEL_PRIZES[prizeIdx];
+      if(prize.type==='coins')addCoins(prize.val,'Lucky Wheel!');
+      else if(prize.type==='petxp')addPetXP(prize.val);
+      const res=document.getElementById('spin-result');if(res)res.textContent='🎉 You won: '+prize.label+'!';
+      showCelebration();showNotif('🎡 You won '+prize.label+'!');
+      if(btn){btn.disabled=false;btn.textContent='✅ Spun Today!';}
+    }
+  };animate();
+}
+
+// ── DAILY CHECK-IN ────────────────────────────────────────
+function renderCheckin(){
+  const grid=document.getElementById('checkin-grid');const btnWrap=document.getElementById('checkin-btn-wrap');if(!grid)return;
+  const today=todayKey();const loginStreak=ld('ep_login_streak',{days:0,last:''});
+  const checkedToday=loginStreak.last===today;
+  let html='';
+  for(let i=1;i<=30;i++){
+    const reward=i*10;const isDone=loginStreak.days>=i;
+    html+=`<div class="checkin-day ${isDone?'done':i===loginStreak.days+1?'today':''}"><div class="checkin-num">${i}</div><div class="checkin-coins">${reward>100?'🎁':reward+'🪙'}</div></div>`;
+  }
+  grid.innerHTML=html;
+  if(btnWrap)btnWrap.innerHTML=checkedToday?`<div style="text-align:center;color:var(--green);font-weight:700;padding:8px">✅ Checked in today! Day ${loginStreak.days}</div>`:`<button class="btn btn-yellow" style="width:100%;margin-top:8px" onclick="doCheckin()">🎁 Daily Check-In (+${(loginStreak.days+1)*10}🪙)</button>`;
+}
+function doCheckin(){
+  const today=todayKey();const ls=ld('ep_login_streak',{days:0,last:''});
+  if(ls.last===today)return;
+  const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);const yKey=fmtDate(yesterday);
+  ls.days=ls.last===yKey?ls.days+1:1;ls.last=today;sv('ep_login_streak',ls);
+  const reward=ls.days*10;addCoins(reward,'Daily check-in Day '+ls.days);
+  addPetXP(20);showCelebration();showNotif('🎁 Day '+ls.days+' check-in! +'+reward+'🪙');renderCheckin();
+}
+
+// ── MOTIVATION METER ──────────────────────────────────────
+function updateMotivationMeter(){
+  const streak=calcStreak();const todayH=(studyData[todayKey()]?.hours||0);
+  const weekH=getWeeklyHours();const cons=Object.keys(studyData).filter(k=>studyData[k].hours>0).length;
+  const score=Math.min(100,Math.round(streak*10+todayH*5+weekH*2+cons));
+  const arc=document.getElementById('motivation-arc');const ms=document.getElementById('motivation-score');const ml=document.getElementById('motivation-label');const mf=document.getElementById('motivation-factors');
+  if(arc)arc.style.strokeDashoffset=263.9-(263.9*score/100);if(ms)ms.textContent=score+'%';
+  if(ml)ml.textContent=score>=80?'On Fire! 🔥':score>=60?'Doing Great! 💪':score>=40?'Keep Going ⚡':'Need Boost 📚';
+  if(mf)mf.innerHTML=`🔥 Streak: ${streak} days<br>⏱ Today: ${todayH}h<br>📅 This week: ${weekH}h<br>📊 Days studied: ${cons}`;
+}
+
+// ── SMART SUGGESTIONS ─────────────────────────────────────
+function renderSmartSuggestions(){
+  const el=document.getElementById('smart-suggestions');if(!el)return;
+  const suggestions=[];const streak=calcStreak();const now=new Date();const h=now.getHours();
+  const todayStudied=studyData[todayKey()]?.hours>0;
+  const allT=exams.flatMap(e=>e.sections.flatMap((s,si)=>s.topics.map((_,ti)=>({id:`${e.id}-${si}-${ti}`,sec:s.name,rev:syllabus[`${e.id}-${si}-${ti}`]?.revisions||0,done:syllabus[`${e.id}-${si}-${ti}`]?.completed||false}))));
+  const englishDone=allT.filter(t=>t.sec.toLowerCase().includes('english')&&t.done).length;
+  const englishTotal=allT.filter(t=>t.sec.toLowerCase().includes('english')).length||1;
+  const englishPct=Math.round(englishDone/englishTotal*100);
+  if(streak>0&&!todayStudied&&h>18)suggestions.push({type:'danger',icon:'🚨',text:`Your ${streak}-day streak breaks at midnight! Study now to save it!`});
+  if(englishPct<50)suggestions.push({type:'warning',icon:'⚠️',text:`English is only ${englishPct}% complete. Focus on English today!`});
+  const examDates=ld(EDSK,[]);if(examDates.length){const nearest=examDates.sort((a,b)=>new Date(a.date)-new Date(b.date))[0];const days=Math.ceil((new Date(nearest.date)-new Date())/864e5);if(days<30)suggestions.push({type:'danger',icon:'🚨',text:`${nearest.name} is in ${days} days! Increase revision frequency now!`});}
+  if(!todayStudied)suggestions.push({type:'info',icon:'📚',text:`You haven't studied today. Even 1 hour makes a big difference!`});
+  const weakTopics=allT.filter(t=>!t.done&&t.rev<2).length;if(weakTopics>10)suggestions.push({type:'warning',icon:'🔥',text:`You have ${weakTopics} weak topics. Take a mock test to identify gaps!`});
+  if(h>=22&&h<24)suggestions.push({type:'info',icon:'🌙',text:`Night owl detected! Your best study time seems to be evenings.`});
+  if(!suggestions.length)suggestions.push({type:'success',icon:'✅',text:'Great job! You are on track. Keep maintaining your study routine!'});
+  el.innerHTML=suggestions.slice(0,3).map(s=>`<div class="smart-card ${s.type}"><span class="smart-icon">${s.icon}</span><span class="smart-text">${s.text}</span></div>`).join('');
+}
+
+// ── QUESTS SYSTEM ─────────────────────────────────────────
+function getDailyQuests(){
+  const today=todayKey();const key='ep_daily_quests';const saved=ld(key,null);
+  if(saved&&saved.date===today)return saved.quests;
+  const quests=[
+    {id:'q1',name:'Study 30 minutes',icon:'⏱',type:'hours',target:0.5,reward:{coins:10,xp:20}},
+    {id:'q2',name:'Complete 2 topics',icon:'✅',type:'topics',target:2,reward:{coins:15,xp:30}},
+    {id:'q3',name:'Solve 20 MCQs',icon:'🧠',type:'questions',target:20,reward:{coins:20,xp:25}},
+    {id:'q4',name:'Do 1 revision',icon:'📖',type:'revisions',target:1,reward:{coins:10,xp:15}},
+    {id:'q5',name:'Review 5 flashcards',icon:'🃏',type:'flashcards',target:5,reward:{coins:10,xp:20}},
+  ].slice(0,3);
+  sv(key,{date:today,quests:quests.map(q=>({...q,claimed:false}))});return quests;
+}
+function getQuestProgress(q){
+  const k=todayKey();const d=studyData[k]||{};
+  if(q.type==='hours')return currentHours;if(q.type==='questions')return d.questions||0;
+  if(q.type==='revisions')return d.revisions||0;
+  if(q.type==='topics'){const allT=exams.flatMap(e=>e.sections.flatMap((s,si)=>s.topics.map((_,ti)=>(`${e.id}-${si}-${ti}`))));return allT.filter(id=>syllabus[id]?.completed).length;}
+  if(q.type==='flashcards')return flashcards.length;return 0;
+}
+function claimQuest(id,coins,xp){
+  const key='ep_daily_quests';const saved=ld(key,null);if(!saved)return;
+  saved.quests=saved.quests.map(q=>q.id===id?{...q,claimed:true}:q);sv(key,saved);
+  addCoins(coins,'Quest: completed!');addPetXP(xp);showCelebration();showNotif(`🎉 Quest done! +${coins}🪙 +${xp}XP`);renderQuests();
+}
+function renderQuests(){
+  const dq=document.getElementById('daily-quests');
+  const wq=document.getElementById('weekly-quests');
+  const mq=document.getElementById('monthly-quests');
+  const quests=getDailyQuests();
+  if(dq)dq.innerHTML=quests.map(q=>{const prog=getQuestProgress(q);const pct=Math.min(100,Math.round(prog/q.target*100));const done=prog>=q.target;return `<div class="quest-item"><div class="quest-icon">${q.icon}</div><div class="quest-info"><div class="quest-name">${q.name}</div><div class="quest-progress"><div class="quest-progress-fill" style="width:${pct}%;background:${done?'var(--green)':'var(--accent)'}"></div></div><div class="quest-meta">${prog}/${q.target} · +${q.reward.coins}🪙 +${q.reward.xp}XP</div></div>${done&&!q.claimed?`<button class="btn btn-green" style="font-size:10px;padding:5px 10px" onclick="claimQuest('${q.id}',${q.reward.coins},${q.reward.xp})">Claim!</button>`:q.claimed?'<span style="color:var(--green);font-size:12px">✅</span>':'<span class="quest-reward">+'+q.reward.coins+'🪙</span>'}</div>`;}).join('');
+  const weeklyData=[
+    {name:'Study 15 hours',icon:'⏱',current:getWeeklyHours(),target:15,coins:100,xp:200},
+    {name:'Complete 10 topics',icon:'✅',current:getWeeklyTopics(),target:10,coins:80,xp:150},
+    {name:'Solve 200 questions',icon:'🧠',current:getWeeklyQuestions(),target:200,coins:120,xp:180},
+  ];
+  if(wq)wq.innerHTML=weeklyData.map(q=>{const pct=Math.min(100,Math.round(q.current/q.target*100));return `<div class="quest-item"><div class="quest-icon">${q.icon}</div><div class="quest-info"><div class="quest-name">${q.name}</div><div class="quest-progress"><div class="quest-progress-fill" style="width:${pct}%"></div></div><div class="quest-meta">${q.current}/${q.target}</div></div><span class="quest-reward">+${q.coins}🪙</span></div>`;}).join('');
+  const monthH=getMonthHours();const monthlyData=[
+    {name:'Study 60 hours',icon:'⏱',current:monthH,target:60},
+    {name:'Maintain 20-day streak',icon:'🔥',current:calcStreak(),target:20},
+  ];
+  if(mq)mq.innerHTML=monthlyData.map(q=>{const pct=Math.min(100,Math.round(q.current/q.target*100));return `<div class="quest-item"><div class="quest-icon">${q.icon}</div><div class="quest-info"><div class="quest-name">${q.name}</div><div class="quest-progress"><div class="quest-progress-fill" style="width:${pct}%;background:var(--purple)"></div></div><div class="quest-meta">${q.current}/${q.target}</div></div><span class="quest-reward">🏆</span></div>`;}).join('');
+  renderBattlePass();
+}
+function getMonthHours(){const now=new Date();const y=now.getFullYear();const m=p2(now.getMonth()+1);return Object.keys(studyData).filter(k=>k.startsWith(`${y}-${m}`)).reduce((s,k)=>s+(studyData[k].hours||0),0);}
+
+// ── BATTLE PASS ───────────────────────────────────────────
+const BP_TIERS=[
+  {level:1,reward:'10🪙',type:'coins',val:10},{level:2,reward:'20XP',type:'xp',val:20},
+  {level:3,reward:'🎨 Ocean Theme',type:'theme',val:'theme_ocean'},{level:4,reward:'50🪙',type:'coins',val:50},
+  {level:5,reward:'Pet +50XP',type:'petxp',val:50},{level:6,reward:'100XP',type:'xp',val:100},
+  {level:7,reward:'100🪙',type:'coins',val:100},{level:8,reward:'🏆 Special Badge',type:'badge',val:'bp_badge'},
+  {level:9,reward:'200XP',type:'xp',val:200},{level:10,reward:'💎 Legend Theme',type:'theme',val:'theme_purple'},
+];
+function renderBattlePass(){
+  const el=document.getElementById('battle-pass');if(!el)return;
+  const xp=calcXP();const bpLevel=Math.min(10,Math.floor(xp/100)+1);
+  const claimed=ld('ep_bp_claimed',[]);
+  el.innerHTML=BP_TIERS.map(t=>{
+    const unlocked=bpLevel>=t.level;const isClaimed=claimed.includes(t.level);
+    return `<div class="bp-tier"><span class="bp-tier-num${t.level===bpLevel?" current":""}">${t.level}</span><div class="bp-reward${isClaimed?" claimed":""}"><span class="bp-reward-icon">${unlocked?'🎁':'🔒'}</span><span class="bp-reward-name">${t.reward}</span>${unlocked&&!isClaimed?`<button class="bp-claim-btn" style="background:var(--green);color:#0f172a" onclick="claimBP(${t.level},'${t.type}',${t.val})">Claim</button>`:isClaimed?`<span style="font-size:10px;color:var(--green)">✅</span>`:''}</div></div>`;
+  }).join('');
+}
+function claimBP(level,type,val){
+  const claimed=ld('ep_bp_claimed',[]);if(claimed.includes(level))return;
+  claimed.push(level);sv('ep_bp_claimed',claimed);
+  if(type==='coins')addCoins(val,'Battle Pass Tier '+level);
+  else if(type==='petxp')addPetXP(val);
+  showCelebration();showNotif('🎁 Battle Pass Tier '+level+' claimed!');renderBattlePass();
+}
+
+// ── FOCUS GARDEN ──────────────────────────────────────────
+const GARDEN_STAGES=[
+  {plant:'🌱',name:'Seedling',minDays:0},{plant:'🌿',name:'Sprout',minDays:3},
+  {plant:'🌺',name:'Flower',minDays:7},{plant:'🌳',name:'Tree',minDays:14},
+  {plant:'🌲',name:'Ancient Tree',minDays:30}
+];
+function updateGarden(){
+  const streak=calcStreak();const todayStudied=studyData[todayKey()]?.hours>0;
+  const health=todayStudied?100:Math.max(0,100-(new Date().getHours()/24*100));
+  const stage=GARDEN_STAGES.slice().reverse().find(s=>streak>=s.minDays)||GARDEN_STAGES[0];
+  const gp=document.getElementById('garden-plant');const gpn=document.getElementById('garden-plant-name');const ghf=document.getElementById('garden-health-fill');const gl=document.getElementById('garden-label');const gd=document.getElementById('garden-days');const gs=document.getElementById('garden-stage');
+  if(gp)gp.textContent=todayStudied?stage.plant:(health<30?'🥀':stage.plant);
+  if(gpn)gpn.textContent=stage.name;
+  if(ghf){ghf.style.width=health+'%';ghf.style.background=health>60?'var(--green)':health>30?'var(--yellow)':'#ef4444';}
+  if(gl)gl.textContent=todayStudied?'Your plant is thriving! 🌟':'Study today to keep it alive!';
+  if(gd)gd.textContent=streak;if(gs)gs.textContent=(GARDEN_STAGES.indexOf(stage)+1)+'/'+GARDEN_STAGES.length;
+}
+
+// ── STUDY CITY ────────────────────────────────────────────
+const CITY_BUILDINGS=[
+  {id:'library',name:'Library',icon:'📚',cost:50,desc:'+5% XP'},
+  {id:'school',name:'School',icon:'🏫',cost:100,desc:'Unlock skills'},
+  {id:'university',name:'University',icon:'🎓',cost:200,desc:'+10% coins'},
+  {id:'laboratory',name:'Laboratory',icon:'🔬',cost:150,desc:'Science boost'},
+  {id:'stadium',name:'Stadium',icon:'🏟️',cost:120,desc:'Challenge mode'},
+  {id:'research',name:'Research Center',icon:'🔭',cost:300,desc:'Mega XP boost'},
+  {id:'temple',name:'Study Temple',icon:'⛩️',cost:250,desc:'Focus bonus'},
+  {id:'tower',name:'Knowledge Tower',icon:'🗼',cost:500,desc:'Ultimate reward'},
+];
+function renderCity(){
+  const grid=document.getElementById('city-grid');const cc=document.getElementById('city-coins');const cp=document.getElementById('city-progress');if(!grid)return;
+  const built=ld('ep_city_buildings',[]);const coins=ld(COINSK,0);
+  if(cc)cc.textContent=coins+'🪙';if(cp)cp.textContent=built.length+'/'+CITY_BUILDINGS.length;
+  grid.innerHTML=CITY_BUILDINGS.map(b=>{const isBuilt=built.includes(b.id);const canAfford=coins>=b.cost;return `<div class="city-building${isBuilt?' built':!canAfford?' locked':''}" onclick="buildCity('${b.id}')"><span class="city-icon">${b.icon}</span><div class="city-name">${b.name}</div><div class="city-cost">${isBuilt?'✅ Built':b.cost+'🪙'}</div></div>`;}).join('');
+}
+function buildCity(id){
+  const built=ld('ep_city_buildings',[]);if(built.includes(id))return showNotif('Already built!','#fbbf24');
+  const b=CITY_BUILDINGS.find(x=>x.id===id);if(!b)return;const coins=ld(COINSK,0);
+  if(coins<b.cost)return showNotif('Need '+b.cost+'🪙!','#ef4444');
+  sv(COINSK,coins-b.cost);built.push(id);sv('ep_city_buildings',built);
+  updateCoinsDisplay();renderCity();showCelebration();showNotif('🏗️ '+b.name+' built! '+b.desc);
+}
+
+// ── WRONG VAULT ───────────────────────────────────────────
+let wrongVault=ld('ep_wrong_vault',[]);
+function saveVaultQ(){
+  const q=document.getElementById('vault-q')?.value.trim();const correct=document.getElementById('vault-correct')?.value.trim();const yourans=document.getElementById('vault-yourans')?.value.trim();const explanation=document.getElementById('vault-explanation')?.value.trim();const sub=document.getElementById('vault-sub')?.value;
+  if(!q||!correct)return showNotif('Enter question and answer!','#ef4444');
+  wrongVault.unshift({id:Date.now(),q,correct,yourans,explanation,sub,date:todayKey()});sv('ep_wrong_vault',wrongVault);
+  ['vault-q','vault-correct','vault-yourans','vault-explanation'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('modal-vault-bg').classList.remove('open');renderVault();showNotif('🗃️ Added to vault!');
+}
+function deleteVaultQ(id){wrongVault=wrongVault.filter(q=>q.id!==id);sv('ep_wrong_vault',wrongVault);renderVault();}
+function renderVault(){
+  const el=document.getElementById('vault-list');if(!el)return;
+  const filter=document.getElementById('vault-filter')?.value||'all';
+  const filtered=filter==='all'?wrongVault:wrongVault.filter(q=>q.sub===filter);
+  if(!filtered.length){el.innerHTML='<div class="empty-state"><div>🗃️</div>No wrong questions yet!</div>';return;}
+  el.innerHTML=filtered.map(q=>`<div class="vault-item"><div class="vault-q">❓ ${q.q}</div><div class="vault-answers"><div class="vault-correct">✅ Correct: ${q.correct}</div>${q.yourans?`<div class="vault-wrong">❌ Your answer: ${q.yourans}</div>`:''}</div><div style="font-size:9px;color:var(--muted);margin-bottom:4px">${q.sub} · ${fmtKey(q.date)}</div>${q.explanation?`<div class="vault-explanation">💡 ${q.explanation}</div>`:''}<button onclick="deleteVaultQ(${q.id})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:11px;margin-top:6px">🗑 Remove</button></div>`).join('');
+}
+
+// ── MOCK TEST TRACKER ─────────────────────────────────────
+let mockTests=ld('ep_mock_tests',[]);
+function saveMockTrack(){
+  const name=document.getElementById('mt-name')?.value.trim();const score=parseFloat(document.getElementById('mt-score')?.value)||0;const total=parseFloat(document.getElementById('mt-total')?.value)||100;const accuracy=parseFloat(document.getElementById('mt-accuracy')?.value)||0;const rank=document.getElementById('mt-rank')?.value.trim();
+  if(!name)return showNotif('Enter test name!','#ef4444');
+  mockTests.unshift({id:Date.now(),name,score,total,accuracy,rank,date:todayKey(),pct:Math.round(score/total*100)});sv('ep_mock_tests',mockTests);
+  ['mt-name','mt-score','mt-total','mt-accuracy','mt-rank'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('modal-mocktrack-bg').classList.remove('open');renderMockTrack();showNotif('📊 Test result saved!');
+}
+function deleteMockTest(id){mockTests=mockTests.filter(t=>t.id!==id);sv('ep_mock_tests',mockTests);renderMockTrack();}
+function renderMockTrack(){
+  const list=document.getElementById('mock-track-list');if(!list)return;
+  if(!mockTests.length){list.innerHTML='<div class="empty-state"><div>📊</div>No test results yet!</div>';return;}
+  list.innerHTML=mockTests.map(t=>`<div class="mock-track-item"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="font-size:13px;font-weight:700">${t.name}</div><button onclick="deleteMockTest(${t.id})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px">🗑</button></div><div class="mock-score-display" style="color:${t.pct>=70?'var(--green)':t.pct>=50?'var(--yellow)':'#ef4444'}">${t.pct}%</div><div class="mock-meta-grid"><div><div class="mock-meta-val">${t.score}/${t.total}</div><div class="mock-meta-lbl">Score</div></div><div><div class="mock-meta-val">${t.accuracy||'—'}%</div><div class="mock-meta-lbl">Accuracy</div></div><div><div class="mock-meta-val">${t.rank||'—'}</div><div class="mock-meta-lbl">Rank</div></div></div><div style="font-size:10px;color:var(--muted);margin-top:6px">${fmtKey(t.date)}</div></div>`).join('');
+  // Update chart
+  if(mockTests.length>1){const labels=mockTests.slice(0,10).reverse().map(t=>t.name.slice(0,8));const scores=mockTests.slice(0,10).reverse().map(t=>t.pct);mkChart('chart-mock-progress',labels,scores,'Score %','#4ade80','line');}
+}
+
+// ── COLLECTION BOOK ───────────────────────────────────────
+function showCollection(type,btn){
+  document.querySelectorAll('.coll-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');
+  const el=document.getElementById('collection-content');if(!el)return;
+  const owned=ld('ep_owned_items',[]);const built=ld('ep_city_buildings',[]);const skills=ld('ep_skills',[]);
+  let items=[];let total=0;let collected=0;
+  if(type==='badges'){
+    items=[{icon:'🌱',name:'First Step'},{icon:'🔥',name:'3-Day'},{icon:'⚡',name:'Week'},{icon:'💎',name:'Month'},{icon:'⏱',name:'10H'},{icon:'🏅',name:'50H'},{icon:'🏆',name:'100H'},{icon:'🧠',name:'100Q'},{icon:'🎯',name:'500Q'},{icon:'🪙',name:'100Coins'},{icon:'🃏',name:'Cards'},{icon:'📖',name:'Mistakes'}];
+    items=items.map(b=>({...b,collected:Object.keys(studyData).length>=1}));
+  }else if(type==='pets'){
+    items=[{icon:'🦉',name:'Owl',collected:true},{icon:'🐉',name:'Dragon',collected:true},{icon:'🤖',name:'Robot',collected:true},{icon:'🦊',name:'Fox',collected:true},{icon:'🐲',name:'Dragon+',collected:ld('ep_boss_beaten_reasoning',false)},{icon:'💎🦉',name:'Legend Owl',collected:calcStreak()>=30}];
+  }else if(type==='themes'){
+    items=[{icon:'🌑',name:'Dark',collected:true},{icon:'☀️',name:'Light',collected:true},{icon:'🌊',name:'Ocean',collected:owned.includes('theme_ocean')},{icon:'🌿',name:'Forest',collected:owned.includes('theme_forest')},{icon:'🌅',name:'Sunset',collected:owned.includes('theme_sunset')},{icon:'💜',name:'Purple',collected:owned.includes('theme_purple')}];
+  }else if(type==='trophies'){
+    items=[{icon:'🥇',name:'Boss 1',collected:ld('ep_boss_beaten_english',false)},{icon:'🥈',name:'Boss 2',collected:ld('ep_boss_beaten_gk',false)},{icon:'🥉',name:'Boss 3',collected:ld('ep_boss_beaten_reasoning',false)},{icon:'🏆',name:'Boss 4',collected:ld('ep_boss_beaten_maths',false)},{icon:'🎖️',name:'Streak 7',collected:calcStreak()>=7},{icon:'🌟',name:'100H',collected:tots('hours')>=100}];
+  }
+  total=items.length;collected=items.filter(i=>i.collected).length;
+  el.innerHTML=`<div class="collection-grid">${items.map(i=>`<div class="coll-item${i.collected?' collected':''}"><div class="coll-icon">${i.icon}</div><div class="coll-name">${i.name}</div></div>`).join('')}</div>`;
+  const pct=document.getElementById('collection-pct');if(pct)pct.textContent=Math.round(collected/total*100)+'%';
+}
+
+// ── V12 INIT ──────────────────────────────────────────────
+function initV12(){
+  renderPet();drawWheel();renderCheckin();updateMotivationMeter();renderSmartSuggestions();
+  renderQuests();updateGarden();renderCity();renderVault();renderMockTrack();renderSkillTree();
+  // Check if lucky wheel already spun today
+  const today=todayKey();const lastSpin=ld('ep_last_spin','');
+  const btn=document.getElementById('spin-btn');if(btn&&lastSpin===today){btn.textContent='✅ Spun Today!';btn.disabled=true;}
+  // Daily auto pet XP from studying
+  const todayH=studyData[todayKey()]?.hours||0;if(todayH>0)addPetXP(Math.floor(todayH*5));
+}
+
+// V12 AUTO INIT
+try{initV12();}catch(e){console.log("V12 init:",e);}
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>
 </body>
