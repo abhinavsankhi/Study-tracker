@@ -1494,6 +1494,9 @@ function updatePinDots(){for(let i=0;i<4;i++){const d=document.getElementById("p
 function addCoins(n,reason){if(n<=0)return;const cur=ld(COINSK,0)+n;sv(COINSK,cur);const log=ld(COINLOGK,[]);log.unshift(`+${n}🪙 ${reason}`);sv(COINLOGK,log.slice(0,20));updateCoinsDisplay();}
 function updateCoinsDisplay(){const c=ld(COINSK,0);const el=document.getElementById("coins-display");if(el)el.textContent=c+" 🪙";const logEl=document.getElementById("coins-log");if(logEl)logEl.innerHTML=ld(COINLOGK,[]).slice(0,5).map(l=>`<div style="padding:2px 0;border-bottom:1px solid var(--border)">${l}</div>`).join("");}
 applyTheme();applyFontSize();initPin();
+if('Notification' in window && Notification.permission==='default'){
+  setTimeout(()=>{Notification.requestPermission();},3000);
+}
 initSubjectInputs();
 setDateBadge();showQuote();updateCountdown();loadTodayVals();loadLeftOff();
 calcAndShowStreak();updateGoalRing();updateTargets();updateCoinsDisplay();
@@ -1587,7 +1590,27 @@ function renderHeatmap(){const hm=document.getElementById("heatmap");if(!hm)retu
 function renderCalendar(){const mo=["January","February","March","April","May","June","July","August","September","October","November","December"];document.getElementById("cal-title").textContent=`${mo[calMonth.getMonth()]} ${calMonth.getFullYear()}`;const grid=document.getElementById("cal-grid");grid.innerHTML="";["Su","Mo","Tu","We","Th","Fr","Sa"].forEach(d=>{const el=document.createElement("div");el.className="cal-dn";el.textContent=d;grid.appendChild(el);});const first=new Date(calMonth.getFullYear(),calMonth.getMonth(),1),last=new Date(calMonth.getFullYear(),calMonth.getMonth()+1,0),today=todayKey();for(let i=0;i<first.getDay();i++){const el=document.createElement("div");el.className="cal-day empty";grid.appendChild(el);}for(let d=1;d<=last.getDate();d++){const k=`${calMonth.getFullYear()}-${p2(calMonth.getMonth()+1)}-${p2(d)}`;const el=document.createElement("div");el.className="cal-day";el.textContent=d;if(k===today)el.classList.add("today");if(studyData[k]){const h=studyData[k].hours||0;if(h>0&&h<=2)el.classList.add("lv1");else if(h<=4)el.classList.add("lv2");else if(h<=6)el.classList.add("lv3");else if(h>6)el.classList.add("lv4");el.onclick=()=>showDD(k);}grid.appendChild(el);}}
 function changeMonth(d){calMonth.setMonth(calMonth.getMonth()+d);renderCalendar();document.getElementById("day-detail").style.display="none";}
 function showDD(k){const d=studyData[k];if(!d)return;document.getElementById("day-detail").style.display="block";document.getElementById("dd-date").textContent=fmtKey(k);document.getElementById("dd-hours").textContent=d.hours||0;document.getElementById("dd-questions").textContent=d.questions||0;document.getElementById("dd-revisions").textContent=d.revisions||0;const allT=exams.flatMap(e=>e.sections.flatMap((s,si)=>s.topics.map((_,ti)=>(`${e.id}-${si}-${ti}`))));document.getElementById("dd-topics").textContent=allT.filter(id=>syllabus[id]?.completed).length;const nw=document.getElementById("dd-notes-wrap");if(d.notes||d.sessionNote){document.getElementById("dd-notes").textContent=(d.notes||"")+(d.sessionNote?"\n⏱ "+d.sessionNote:"");nw.style.display="block";}else nw.style.display="none";}
-function restoreTimer(){const st=ld(TK2,null);if(!st)return;if(st.running&&st.startedAt){timerSec=Math.floor((Date.now()-st.startedAt)/1000);timerRunning=true;timerStart_=st.startedAt;updTm();startTick();document.getElementById("timer-display").classList.add("running");document.getElementById("timer-label").textContent="⏱ Studying...";document.getElementById("tbtn-start").style.display="none";document.getElementById("tbtn-pause").style.display="inline-block";document.getElementById("tbtn-stop").style.display="inline-block";}else if(st.base>0){timerSec=st.base;updTm();document.getElementById("timer-display").classList.add("paused");document.getElementById("timer-label").textContent="⏸ Paused";document.getElementById("tbtn-start").textContent="▶ Resume";document.getElementById("tbtn-stop").style.display="inline-block";document.getElementById("tbtn-reset").style.display="inline-block";}}
+function restoreTimer(){
+  const st=ld(TK2,null);if(!st)return;
+  if(st.running&&st.startedAt){
+    timerSec=Math.floor((Date.now()-st.startedAt)/1000);
+    timerRunning=true;timerStart_=st.startedAt;
+    updTm();startTick();
+    document.getElementById("timer-display").classList.add("running");
+    document.getElementById("timer-label").textContent="⏱ Studying... (resumed)";
+    document.getElementById("tbtn-start").style.display="none";
+    document.getElementById("tbtn-pause").style.display="inline-block";
+    document.getElementById("tbtn-stop").style.display="inline-block";
+    if(timerSec>60){const m=Math.floor(timerSec/60);showNotif("⏱ Welcome back! Timer ran "+m+" min while away");}
+  }else if(st.base>0){
+    timerSec=st.base;updTm();
+    document.getElementById("timer-display").classList.add("paused");
+    document.getElementById("timer-label").textContent="⏸ Paused";
+    document.getElementById("tbtn-start").textContent="▶ Resume";
+    document.getElementById("tbtn-stop").style.display="inline-block";
+    document.getElementById("tbtn-reset").style.display="inline-block";
+  }
+}
 function saveTm(){if(timerRunning)sv(TK2,{running:true,startedAt:timerStart_});else sv(TK2,{running:false,base:timerSec});}
 function updTm(){const h=Math.floor(timerSec/3600),m=Math.floor((timerSec%3600)/60),s=timerSec%60;document.getElementById("timer-display").textContent=`${p2(h)}:${p2(m)}:${p2(s)}`;}
 function startTick(){timerInt=setInterval(()=>{timerSec++;updTm();},1000);}
@@ -1595,7 +1618,15 @@ function timerStart(){timerRunning=true;timerStart_=Date.now()-(timerSec*1000);s
 function timerPause(){clearInterval(timerInt);timerRunning=false;document.getElementById("timer-display").classList.remove("running");document.getElementById("timer-display").classList.add("paused");document.getElementById("timer-label").textContent="⏸ Paused";document.getElementById("tbtn-start").textContent="▶ Resume";document.getElementById("tbtn-start").style.display="inline-block";document.getElementById("tbtn-pause").style.display="none";document.getElementById("tbtn-reset").style.display="inline-block";saveTm();}
 function timerStop(){clearInterval(timerInt);timerRunning=false;const hrs=timerSec/3600,added=Math.round(hrs*2)/2;currentHours=Math.min(24,Math.round((currentHours+added)*2)/2);document.getElementById("hour-display").textContent=currentHours;updateGoalRing();const tm=Math.floor(timerSec/60),h2=Math.floor(tm/60),rem=tm%60;const ts=h2>0?`${h2}h ${rem}m`:`${rem}m`;document.getElementById("timer-session-time").textContent=ts;document.getElementById("timer-session").style.display="block";document.getElementById("timer-display").classList.remove("running","paused");document.getElementById("timer-label").textContent="✅ Complete!";document.getElementById("tbtn-start").style.display="none";document.getElementById("tbtn-pause").style.display="none";document.getElementById("tbtn-stop").style.display="none";document.getElementById("tbtn-reset").style.display="inline-block";localStorage.removeItem(TK2);const k=todayKey();const subjects=SUBJECTS.map((_,i)=>parseFloat(document.getElementById("sub-"+i)?.value)||0);const sessionNote=document.getElementById("session-note").value.trim();if(!studyData[k])studyData[k]={hours:0,questions:0,revisions:0,notes:"",leftOff:"",subjects:[],savedAt:new Date().getHours()};studyData[k].hours=currentHours;studyData[k].questions=parseInt(document.getElementById("input-questions").value)||0;studyData[k].revisions=parseInt(document.getElementById("input-revisions").value)||0;studyData[k].notes=document.getElementById("input-notes").value.trim();studyData[k].leftOff=document.getElementById("input-leftoff").value.trim();studyData[k].subjects=subjects;studyData[k].savedAt=new Date().getHours();if(sessionNote)studyData[k].sessionNote=sessionNote;sv(SK,studyData);calcAndShowStreak();updateReadiness();const coins=Math.floor(added);if(coins>0)addCoins(coins,"Timer session");showNotif(`✅ ${ts} auto-saved!`);}
 function timerReset(){clearInterval(timerInt);timerRunning=false;timerSec=0;updTm();document.getElementById("timer-display").classList.remove("running","paused");document.getElementById("timer-label").textContent="Ready to study";document.getElementById("tbtn-start").textContent="▶ Start";document.getElementById("tbtn-start").style.display="inline-block";document.getElementById("tbtn-pause").style.display="none";document.getElementById("tbtn-stop").style.display="none";document.getElementById("tbtn-reset").style.display="none";document.getElementById("timer-session").style.display="none";localStorage.removeItem(TK2);}
-document.addEventListener("visibilitychange",()=>{if(!document.hidden&&timerRunning&&timerStart_){timerSec=Math.floor((Date.now()-timerStart_)/1000);updTm();}});
+document.addEventListener("visibilitychange",()=>{
+  if(!document.hidden&&timerRunning&&timerStart_){
+    timerSec=Math.floor((Date.now()-timerStart_)/1000);
+    updTm();
+  }
+  if(document.hidden&&timerRunning){
+    saveTm(); // Always save when going to background
+  }
+});
 window.addEventListener("beforeunload",()=>{if(timerRunning)saveTm();});
 function showPage(id,btn){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));document.getElementById("page-"+id).classList.add("active");btn.classList.add("active");if(id==="progress")renderProgress();if(id==="calendar")renderCalendar();if(id==="syllabus"){renderExamSwitcher();renderSyllabus();}if(id==="flashcards")renderFlashcards();if(id==="tools"){renderMistakes();renderTimetable();renderResources();renderFormulas();renderPYQ();renderImpDates();}if(id==="history")renderHistory();
   if(id==="planner"){}
